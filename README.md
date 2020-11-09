@@ -28,4 +28,9 @@ That happens because when the mod manager uninstall a mod it deletes the ddl fro
 #### What do you mean by v.3? This is literally the first time this repo existed.
 
 Well that is because this project was locked to a specific mod, the first version just installed the mod, the second could do both, and now the third is mod independent, hence now the reason it received its own repository.
+
+## Credits
+  - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
+  - Thanks [Raicuparta](https://github.com/Raicuparta), [Mister_Nebula](https://github.com/misternebula), [AmazingAlek](https://github.com/amazingalek) and [TAImatem](https://github.com/TAImatem) for creating [OWML](https://github.com/amazingalek/owml) which inspired me to create my own for the Alpha
+  - And thanks [Andreas Pardeike](https://github.com/pardeike/) for creating [Harmony](https://github.com/pardeike/Harmony) and [0x0ade](https://github.com/0x0ade) for making a .net 2.0 compatible version of it
   
