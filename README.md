@@ -1,4 +1,4 @@
-# DIMOWA v.3 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
+# DIMOWA 1.0.0 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
 An universal mod installer (and future mod debugger) for Outer Wilds Alpha (version 1.2)
 
@@ -26,9 +26,6 @@ Just delete the files that you took from the repository folder, but again, befor
 
 That happens because when the mod manager uninstall a mod it deletes the ddl from `Managed` (it doesn't do the same to the ones on the `mods` folder), and when it installs one, it copies it from the `mods` folder to `Managed`.
 
-#### What do you mean by v.3? This is literally the first time this repo existed.
-
-Well that is because this project was locked to a specific mod, the first version just installed the mod, the second could do both, and now the third is mod independent, hence now the reason it received its own repository.
 
 #### What mods are compatible with it?
 
