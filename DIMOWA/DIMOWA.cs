@@ -366,7 +366,7 @@ namespace IMOWA
                 if ((resposta == "listademods" || resposta == "recarregar" || resposta == "refresh" || resposta == "menu" || resposta == "r") && indexofmod < 0)
                 {
                     Console.Clear();
-                    Console.WriteLine(" --- DIMOWA v.1.0.1 --- ");
+                    Console.WriteLine(" --- DIMOWA v.1.0.2 --- ");
                     for (int i = 0; i < listOfMods.Count; i++)
                     {
                         indexOfModInnits[i] = CheckIfModInstalled(listOfModTarget[i], patcher);

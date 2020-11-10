@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{D76AA204-1265-4785-A4AE-0EA9CAAFA1EE}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>OWBAModInstaller</RootNamespace>
-    <AssemblyName>OWBAModInstaller</AssemblyName>
+    <RootNamespace>IMOWA</RootNamespace>
+    <AssemblyName>DIMOWA</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,6 +31,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>DIMOWA_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="MOWAP.cs" />
@@ -59,6 +62,9 @@
       <Project>{8034c813-8d42-464f-8f65-11d8f8c8c37b}</Project>
       <Name>IMOWAAnotations</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DIMOWA_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
