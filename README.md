@@ -1,4 +1,5 @@
 # DIMOWA v.3 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2) 
+#### Or Outer Wilds Alpha Mod Debugger and Loader (OWAMDL) 
 An universal mod installer (and future mod debugger) for Outer Wilds Alpha (version 1.2)
 
 ### How do I install and use it?
