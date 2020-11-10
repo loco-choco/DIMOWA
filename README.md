@@ -2,11 +2,14 @@
 
 An universal mod installer (and future mod debugger) for Outer Wilds Alpha (version 1.2)
 
+<img src="https://github.com/ShoosGun/DIMOWA/blob/main/Icon%20and%20other%20images/DIMOWA_icon.png"  width="224" height = "289" >
+
+
 ### How do I install and use it?
 
 1. Download the latest Release version
 
-2. Place all the files from that directory in `OuterWilds_Alpha_1_2_Data\Managed`.
+2. Place all the files in `OuterWilds_Alpha_1_2_Data\Managed`.
 
 3. Create a folder called **mods** (it needs to be named exactly like that), that is where all the mods dlls that you want to install or just store should be kept
 
