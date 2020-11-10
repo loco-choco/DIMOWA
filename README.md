@@ -29,6 +29,10 @@ That happens because when the mod manager uninstall a mod it deletes the ddl fro
 
 Well that is because this project was locked to a specific mod, the first version just installed the mod, the second could do both, and now the third is mod independent, hence now the reason it received its own repository.
 
+#### What mods are compatible with it?
+
+For now only the [OWBA](https://github.com/ShoosGun/OWBA) bundle is compatible, but soon all the other mods that I made will be too.
+
 ## Credits
   - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
   - Thanks [Raicuparta](https://github.com/Raicuparta), [Mister_Nebula](https://github.com/misternebula), [AmazingAlek](https://github.com/amazingalek) and [TAImatem](https://github.com/TAImatem) for creating [OWML](https://github.com/amazingalek/owml) which inspired me to create my own for the Alpha
