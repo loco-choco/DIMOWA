@@ -18,9 +18,11 @@ namespace IMOWA
 
        public Type ModType { get; set; }
 
+       public string ModInnitMethod { get; set; }
+
        public string ModName { get; set; }
 
-       public string dllFileName { get; set; }
+       public string DllFileName { get; set; }
 
        public string ModMethodToTarget { get; set; }
 

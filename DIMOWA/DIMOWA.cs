@@ -20,7 +20,7 @@ namespace IMOWA
         // 1 - Deu erro
         // 2 - Não Deu certo, mas não por erro
 
-        static Target ModInnitTarget(Type modClass, string modName, Patcher p, string modMethodToTarget, string modClassToTarget, string modNamespaceToTarget = "", int indiceOfIntructions = 0)
+        static Target ModInnitTarget(Type modClass,string modInnitMethod, string modName, Patcher p, string modMethodToTarget, string modClassToTarget, string modNamespaceToTarget = "", int indiceOfIntructions = 0)
         {
            
 
@@ -33,7 +33,7 @@ namespace IMOWA
 
                 Instruction.Create(OpCodes.Ldstr   ,  modName),
 
-                Instruction.Create(OpCodes.Call, p.BuildCall(modClass, "ModInnit", typeof(void), new[] { typeof(string) }))
+                Instruction.Create(OpCodes.Call, p.BuildCall(modClass, modInnitMethod, typeof(void), new[] { typeof(string) }))
                 
 
                 };
@@ -64,7 +64,7 @@ namespace IMOWA
 
         static Target ModInnitTarget(MOWAP modMOWAP, Patcher modPatcher)
         {
-            return ModInnitTarget(modMOWAP.ModType, modMOWAP.ModName, modPatcher, modMOWAP.ModMethodToTarget, modMOWAP.ModClassToTarget, modMOWAP.ModNamespaceToTarget, modMOWAP.IndiceOfIntructions);
+            return ModInnitTarget(modMOWAP.ModType, modMOWAP.ModInnitMethod, modMOWAP.ModName, modPatcher, modMOWAP.ModMethodToTarget, modMOWAP.ModClassToTarget, modMOWAP.ModNamespaceToTarget, modMOWAP.IndiceOfIntructions);
         }
 
         //PORQUE ISSO NÃO PODE SER UM POINTER AHAHAHAH
@@ -256,6 +256,9 @@ namespace IMOWA
 
             string caminhoDessePrograma = Directory.GetCurrentDirectory();
 
+            if (!Directory.Exists(caminhoDessePrograma + @"\mods"))
+                Directory.CreateDirectory(caminhoDessePrograma + @"\mods");
+
             string[] todosOsDlls = Directory.GetFiles(caminhoDessePrograma +@"\mods\", "*.dll");
 
 
@@ -301,6 +304,8 @@ namespace IMOWA
                                 {
                                     ModType = classeDoDll,
 
+                                    ModInnitMethod = mInfo.Name,
+
                                     ModName = ((IMOWAModInnit)attr).modName,
 
                                     ModMethodToTarget = ((IMOWAModInnit)attr).methodToPatch,
@@ -311,15 +316,22 @@ namespace IMOWA
 
                                     IndiceOfIntructions = ((IMOWAModInnit)attr).indiceOfPatch,
 
-                                    dllFileName = filePath.Remove(0, caminhoDessePrograma.Count() + 6),
+                                    DllFileName = filePath.Remove(0, caminhoDessePrograma.Count() + 6),
 
                                 });
 
                                 //Ver os atributos dos modInnit de cada mod
                                 //Console.WriteLine(((IMOWAModInnit)attr).modName + " " + ((IMOWAModInnit)attr).methodToPatch + " "+ ((IMOWAModInnit)attr).classToPatch + " "+((IMOWAModInnit)attr).namespaceToPatch );
 
+                                //Se achar o atributo não tem o porque continuar procurando, só se aceita um por vez
+                                break;
                             }
                         }
+
+                        //Se achar o método não tem o porque continuar procurando, só se aceita um por vez
+                        if(listOfMods.Count>0) // Para não dar erro de que não tem elemento na lista
+                            if (listOfMods.Last().ModInnitMethod == mInfo.Name)
+                                break;
                     }
                 }
             }
@@ -354,7 +366,7 @@ namespace IMOWA
                 if ((resposta == "listademods" || resposta == "recarregar" || resposta == "refresh" || resposta == "menu" || resposta == "r") && indexofmod < 0)
                 {
                     Console.Clear();
-                    Console.WriteLine(" --- DIMOWA v.3 --- ");
+                    Console.WriteLine(" --- DIMOWA v.1.0.1 --- ");
                     for (int i = 0; i < listOfMods.Count; i++)
                     {
                         indexOfModInnits[i] = CheckIfModInstalled(listOfModTarget[i], patcher);
@@ -376,61 +388,79 @@ namespace IMOWA
 
                 }
                 //instalar todos os mods
-                else if ((resposta == "instalar todos" || resposta == "it" || resposta == "install all" || resposta == "ia") && indexofmod < 0)
+                else if ((resposta == "instalar todos" || resposta == "it" || resposta == "install all" || resposta == "ia") && indexofmod < 0 && amountOfMods > 0)
                 {
-                    Console.Clear();
-
-                    for (int i = 0; i < listOfModTarget.Length; i++)
+                    if (amountOfMods < 0)
                     {
-                        if (indexOfModInnits[i] < 0)
-                        {
-                            Console.WriteLine('\n' + $"Instalando / Installing {listOfMods[i].ModName} . . .");
-                            InstallOrUninstallMod(listOfModTarget[i], patcher, indexOfModInnits[i],listOfMods[i].dllFileName, caminhoDessePrograma);
-                        }
+                        Console.WriteLine("Nao ha mods para instalar");
+                        Console.WriteLine("There are no mods to install");
                     }
+                    else
+                    {
+                        Console.Clear();
 
-                    patcher.Save(false);
-                    patcher = new Patcher("Assembly-CSharp.dll");
+                        for (int i = 0; i < listOfModTarget.Length; i++)
+                        {
+                            if (indexOfModInnits[i] < 0)
+                            {
+                                Console.WriteLine('\n' + $"Instalando / Installing {listOfMods[i].ModName} . . .");
+                                InstallOrUninstallMod(listOfModTarget[i], patcher, indexOfModInnits[i], listOfMods[i].DllFileName, caminhoDessePrograma);
+                            }
+                        }
 
-                    Console.WriteLine('\n' + "Todos os mods estao agora instalados");
+                        patcher.Save(false);
+                        patcher = new Patcher("Assembly-CSharp.dll");
 
-                    Console.WriteLine('\n' + "Digite [recarregar / r / menu] para recarregar o menu");
-                    Console.WriteLine("Write [refresh / r / menu] to reload the menu");
-                    Console.WriteLine("E se voce quer sair do programa digite [sair / s]");
-                    Console.WriteLine("And if you want to close the program, write [close / c]");
-                    indexofmod = -1;
+                        Console.WriteLine('\n' + "Todos os mods estao agora instalados");
+
+                        Console.WriteLine('\n' + "Digite [recarregar / r / menu] para recarregar o menu");
+                        Console.WriteLine("Write [refresh / r / menu] to reload the menu");
+                        Console.WriteLine("E se voce quer sair do programa digite [sair / s]");
+                        Console.WriteLine("And if you want to close the program, write [close / c]");
+                        indexofmod = -1;
+                    }
                 }
 
                 //desinstalar todos os mods
-                else if ((resposta == "desinstalar todos" || resposta == "dt" || resposta == "uninstall all" || resposta == "ua") && indexofmod < 0)
+                else if ((resposta == "desinstalar todos" || resposta == "dt" || resposta == "uninstall all" || resposta == "ua") && indexofmod < 0 )
                 {
-                    Console.Clear();
-
-                    for (int i = 0; i < listOfModTarget.Length; i++)
+                    if (amountOfMods < 0)
                     {
-                        if (indexOfModInnits[i] > -1)
-                        {
-                            Console.WriteLine('\n' + $"Desinstalando / Unistalling {listOfMods[i].ModName} . . .");
-                            InstallOrUninstallMod(listOfModTarget[i], patcher, indexOfModInnits[i], listOfMods[i].dllFileName,caminhoDessePrograma);
-                        }
+                        Console.WriteLine("Nao ha mods para desinstalar");
+                        Console.WriteLine("There are no mods to uninstall");
                     }
-                    patcher.Save(false);
-                    patcher = new Patcher("Assembly-CSharp.dll");
+                    else
+                    {
+                        Console.Clear();
 
-                    Console.WriteLine('\n' + "Todos os mods estao agora desinstalados");
 
-                    Console.WriteLine('\n' + "Digite [recarregar / r / menu] para recarregar o menu");
-                    Console.WriteLine("Write [refresh / r / menu] to reload the menu");
-                    Console.WriteLine("E se voce quer sair do programa digite [sair / s]");
-                    Console.WriteLine("And if you want to close the program, write [close / c]");
-                    indexofmod = -1;
+
+                        for (int i = 0; i < listOfModTarget.Length; i++)
+                        {
+                            if (indexOfModInnits[i] > -1)
+                            {
+                                Console.WriteLine('\n' + $"Desinstalando / Unistalling {listOfMods[i].ModName} . . .");
+                                InstallOrUninstallMod(listOfModTarget[i], patcher, indexOfModInnits[i], listOfMods[i].DllFileName, caminhoDessePrograma);
+                            }
+                        }
+                        patcher.Save(false);
+                        patcher = new Patcher("Assembly-CSharp.dll");
+
+                        Console.WriteLine('\n' + "Todos os mods estao agora desinstalados");
+
+                        Console.WriteLine('\n' + "Digite [recarregar / r / menu] para recarregar o menu");
+                        Console.WriteLine("Write [refresh / r / menu] to reload the menu");
+                        Console.WriteLine("E se voce quer sair do programa digite [sair / s]");
+                        Console.WriteLine("And if you want to close the program, write [close / c]");
+                        indexofmod = -1;
+                    }
                 }
 
                 //Se a resposta da pessoa for uma dessas e um mod tiver sido escolhido, entao instalar ou desinstalar
                 else if ((resposta == "sim" || resposta == "s" || resposta == "yes" || resposta == "y") && indexofmod > -1)
                 {
 
-                    InstallOrUninstallMod(listOfModTarget[indexofmod], patcher, indexOfModInnits[indexofmod], listOfMods[indexofmod].dllFileName, caminhoDessePrograma);
+                    InstallOrUninstallMod(listOfModTarget[indexofmod], patcher, indexOfModInnits[indexofmod], listOfMods[indexofmod].DllFileName, caminhoDessePrograma);
                     patcher.Save(false);
                     patcher = new Patcher("Assembly-CSharp.dll");
 
@@ -461,7 +491,7 @@ namespace IMOWA
                 {
                     try
                     {
-                        if (indexofmod < 0)
+                        if (indexofmod < 0 )
                         {
                             indexofmod = Convert.ToInt32(resposta);
 
@@ -472,14 +502,14 @@ namespace IMOWA
                                 bool isModinstalled = indexOfModInnits[indexofmod] > -1;
 
                                 Console.WriteLine('\n' + $"Mod {listOfMods[indexofmod].ModName} is " + (isModinstalled ? "" : "not ") + "installed. Would you like to " + (isModinstalled ? "unnistall " : "install ") + "it?");
-                                Console.WriteLine($"O mod {listOfMods[indexofmod].ModName} " + (isModinstalled ? "" : "não ") + "está instalado.Voce gostaria de " + (isModinstalled ? "desinstalar " : "instalar ") + "ele?");
-                                Console.WriteLine('\n' + "For Yes -> yes / y | Para No -> no / n");
+                                Console.WriteLine($"O mod {listOfMods[indexofmod].ModName} " + (isModinstalled ? "" : "não ") + "está instalado. Voce gostaria de " + (isModinstalled ? "desinstalar " : "instalar ") + "ele?");
+                                Console.WriteLine('\n' + "For Yes -> yes / y | For No -> no / n");
                                 Console.WriteLine("Para Sim -> sim / s | Para Nao -> nao / n");
                             }
                             else
                             {
                                 Console.WriteLine("Esse numero nao e um index da lista");
-                                Console.WriteLine("That number is not a index of the list");
+                                Console.WriteLine("That number is not an index of the list");
                                 indexofmod = -1;
                             }
 
