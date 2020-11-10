@@ -1,41 +1,38 @@
-# FreeCamMod (first version)
-Mod for the Alpha Outer Wilds version 1.2 that adds a free cam to the game
+# DIMOWA 1.0.0 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
-### How do I install it?
+An universal mod installer (and future mod debugger) for Outer Wilds Alpha (version 1.2)
 
-1. Download the repo. and open the directory `Mod Instaling Kit`
+### How do I install and use it?
+
+1. Download the repo. and open the directory `Instalador`
 
 2. Place all the files from that directory in `OuterWilds_Alpha_1_2_Data\Managed`
 
-3. Run the executable `FreeCamModInstaller`, it will check if the mod hasn't been already installed, and if not, will ask you if you want to do so. If no error occures it means that the mod has been succesfully installed and there will be a new file called `Assembly-CSharp-ModLoaded.dll`
+3. Create a folder called **mods** (it needs to be named exactly like that), that is where all the mods dlls that you want to install or just store should be kept
 
-4. Rename this new file to `Assembly-CSharp.dll` (The reason to why it doesn't change the original file is so that a backup can be made even after using the executable)
+4. In the folder `Instalador` there will be another one called `0Harmony`, take the dlls that are in there and place them in `OuterWilds_Alpha_1_2_Data\Managed`, they will only be needed if the mod uses them
 
-5. Run the game! 
+5. Run the executable, it will search the `mods` folder for valid mods dlls, and then will make a list of them telling you if they are already installed or not (**Attention:** the installer only knows if a mod is installed if its dll is on the `mods` folder, so before deleting anything check if the program detects it as installed, otherwise the game will give out errors) 
+
+6. When a mod is already installed you just need to run the game, have fun! 
 
 ### How do I uninstall it?
 
-Run the executable `FreeCamModInstaller`, it will check if the mod has been already installed, and if so, will ask you if you want to uninstall it. If no error occures it means that the mod has been succesfully uninstalled and the file `Assembly-CSharp.dll` will have been modified to get rid of the mod. After that, excluding any file from the directory `Mod Instaling Kit` won't cause any harm.
+Just delete the files that you took from the repository folder, but again, before doing so, check if any mod is installed.
 
-### What it does?
+### PSAQ (Probabily Some Asked Questions)
 
-It allows the player to use a freecam while in the game ( the cam still doen't work )
+#### Why some files keep poping in and out of existance when I'm installing/unistalling a mod?
 
-### How do I use it?
+That happens because when the mod manager uninstall a mod it deletes the ddl from `Managed` (it doesn't do the same to the ones on the `mods` folder), and when it installs one, it copies it from the `mods` folder to `Managed`.
 
-1. Press **CapsLock**, it will activate the camera
 
-2. Use **WASD** to move and **TAB** to go faster
+#### What mods are compatible with it?
 
-3. Press **CapsLock** again if you want to go back to the player's camera
+For now only the [OWBA](https://github.com/ShoosGun/OWBA) bundle is compatible, but soon all the other mods that I made will be too.
 
-### Things to keep in mind
-
-- There could be some bugs, so please send a *issue* about what you find in this repo.
-
-- The player will *slide* in the ground if the player was in the air when activating the camera. 
-
-- Pressing **Esc** would open the settings menu normaly, but if you are in the free cam it won't apear, so press **CapsLock** again to go back to it. The game will freese in that state, so it's a good way to take pictures while everything is static.
-
-- The camera might appear to be going up or down sometimes, that's is caused by the rotation of the planets.
+## Credits
+  - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
+  - Thanks [Raicuparta](https://github.com/Raicuparta), [Mister_Nebula](https://github.com/misternebula), [AmazingAlek](https://github.com/amazingalek) and [TAImatem](https://github.com/TAImatem) for creating [OWML](https://github.com/amazingalek/owml) which inspired me to create my own for the Alpha
+  - And thanks [Andreas Pardeike](https://github.com/pardeike/) for creating [Harmony](https://github.com/pardeike/Harmony) and [0x0ade](https://github.com/0x0ade) for making a .net 2.0 compatible version of it
   
