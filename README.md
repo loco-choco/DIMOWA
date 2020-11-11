@@ -11,7 +11,7 @@ An universal mod installer (and future mod debugger) for Outer Wilds Alpha (vers
 
 2. Place all the files in `OuterWilds_Alpha_1_2_Data\Managed`.
 
-3. Create a folder called **mods** (it needs to be named exactly like that), that is where all the mods dlls that you want to install or just store should be kept
+3. Create a folder called **mods** (it needs to be named exactly like that) or run the program (it will create that folder if none is found), that is where all the mods dlls that you want to install or just store should be kept
 
 4. Run the executable, it will search the `mods` folder for valid mods dlls, and then will make a list of them telling you if they are already installed or not (**Attention:** the installer only knows if a mod is installed if its dll is on the `mods` folder, so before deleting anything check if the program detects it as installed, otherwise the game will give out errors) 
 
