@@ -30,7 +30,9 @@ That happens because when the mod manager uninstall a mod it deletes the ddl fro
 
 #### What mods are compatible with it?
 
-For now only the [OWBA](https://github.com/ShoosGun/OWBA) bundle is compatible, but soon all the other mods that I made will be too.
+* [OWBA](https://github.com/ShoosGun/OWBA)
+* [Free Cam Mod](https://github.com/ShoosGun/FreeCamMod)
+* [Probe Graple Mod](https://github.com/ShoosGun/ProbeGrapleMod)
 
 ## Credits
   - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
