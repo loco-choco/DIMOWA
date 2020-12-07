@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D76AA204-1265-4785-A4AE-0EA9CAAFA1EE}</ProjectGuid>
+    <ProjectGuid>{250B2A39-5EDC-4483-8227-D6FCF8476C0E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>IMOWA</RootNamespace>
-    <AssemblyName>DIMOWA</AssemblyName>
+    <RootNamespace>DIMOWAIU</RootNamespace>
+    <AssemblyName>dimowa Installer &amp; Unistaller</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,41 +34,38 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>DIMOWA_icon.ico</ApplicationIcon>
+    <ApplicationIcon>Unistalling3.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="ModInstallingHandler.cs" />
-    <Compile Include="MOWAP.cs" />
-    <Compile Include="DIMOWA.cs" />
-    <Compile Include="OldCAMOWASystem.cs" />
+    <Reference Include="dnlib">
+      <HintPath>..\Instalador\dnlib.dll</HintPath>
+    </Reference>
+    <Reference Include="dnpatch">
+      <HintPath>..\Instalador\dnpatch.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp - Copia">
-      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\Assembly-CSharp - Copia.dll</HintPath>
-    </Reference>
-    <Reference Include="dnlib">
-      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnlib.dll</HintPath>
-    </Reference>
-    <Reference Include="dnpatch">
-      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnpatch.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="DIMOWA_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CAMOWA\CAMOWA.csproj">
-      <Project>{8034c813-8d42-464f-8f65-11d8f8c8c37b}</Project>
-      <Name>CAMOWA</Name>
+    <ProjectReference Include="..\DIMOWAModLoader\DIMOWAModLoader.csproj">
+      <Project>{03331141-f650-448c-a0d8-107d04d5cebf}</Project>
+      <Name>DIMOWAModLoader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DIMOWA\IMOWA.csproj">
+      <Project>{d76aa204-1265-4785-a4ae-0ea9caafa1ee}</Project>
+      <Name>IMOWA</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Unistalling3.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
