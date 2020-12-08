@@ -52,7 +52,7 @@ That happens because when the mod manager uninstall a mod it deletes the ddl fro
 
 #### What mods are compatible with it?
 
-* [OWBA](https://github.com/ShoosGun/OWBA) (DIMOWA 1.0.2 only)
+* [OWBA](https://github.com/ShoosGun/OWBA) 
 * [Free Cam Mod](https://github.com/ShoosGun/FreeCamMod)
 * [Probe Graple Mod](https://github.com/ShoosGun/ProbeGrapleMod) (DIMOWA 1.0.2 only)
 
