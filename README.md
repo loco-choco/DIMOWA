@@ -6,6 +6,7 @@ An universal mod installer (and future mod debugger) for Outer Wilds Alpha (vers
 
 
 ### How do I install it?
+* You can too follow this video showing how to install it: https://youtu.be/FUvLCFWM7po
 
 1. Donwload the .zip called `DIMOWAFiles`
 
