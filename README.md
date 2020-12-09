@@ -54,7 +54,7 @@ That happens because when the mod manager uninstall a mod it deletes the ddl fro
 
 * [OWBA](https://github.com/ShoosGun/OWBA) 
 * [Free Cam Mod](https://github.com/ShoosGun/FreeCamMod)
-* [Probe Graple Mod](https://github.com/ShoosGun/ProbeGrapleMod)
+* [Probe Grapple Mod](https://github.com/ShoosGun/ProbeGrappleMod)
 
 ## Credits
   - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
