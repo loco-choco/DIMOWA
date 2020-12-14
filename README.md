@@ -1,4 +1,4 @@
-# DIMOWA 1.0.3.1 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
+# DIMOWA 1.0.3.2 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
 An universal mod installer (and mod debugger) for Outer Wilds Alpha (version 1.2)
 
