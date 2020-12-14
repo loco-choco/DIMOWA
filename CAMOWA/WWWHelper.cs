@@ -18,7 +18,7 @@ namespace CAMOWA
             return PathToUrl(Application.dataPath + "/Assets/" + relativeFilePath);
         }
 
-        private IEnumerator Import2DTexture(string filePath, Texture2D texture2D)
+        public IEnumerator Import2DTexture(string filePath, Texture2D texture2D)
         {
             WWW www= new WWW (RelativePathToUrl(filePath));
 
@@ -29,7 +29,7 @@ namespace CAMOWA
             yield break;
         }
 
-        private IEnumerator ImportWav(string filePath, AudioClip audioClip)
+        public IEnumerator ImportWav(string filePath, AudioClip audioClip)
         {
             WWW www = new WWW(RelativePathToUrl(filePath));
 

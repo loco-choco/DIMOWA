@@ -6,13 +6,15 @@ namespace DIMOWAModLoader
     {
         static private bool levelLoaderCreated = false;
         private int levelIndex = -1;
-        //[IMOWAModInnit("TitleScreenMenu", "Awake", modName = "DIMOWA Level Loader Handler")]
+        bool loadMods = false;
+        public int LoopCount { get; private set; }
+        
         public static void LevelLoaderInnit(string porOndeTaInicializando)
         {
             if (!levelLoaderCreated)
             {
                 Debug.Log($"Esta inicinado por {porOndeTaInicializando}");
-                new GameObject("FreeCamLevelLoaderHandler").AddComponent<LevelLoaderHandler>(); 
+                new GameObject("DIMOWALevelLoaderHandler").AddComponent<LevelLoaderHandler>();
                 Debug.Log("O GameObject do Handler foi criado");
 
                 levelLoaderCreated = !levelLoaderCreated;
@@ -21,7 +23,15 @@ namespace DIMOWAModLoader
 
         void Awake()
         {
+            gameObject.AddComponent<ClientDebuggerSide>();
+            GlobalMessenger<int>.AddListener("StartOfTimeLoop", new Callback<int>(this.OnStartOfTimeLoop));
             DontDestroyOnLoad(gameObject);
+        }
+
+        void OnStartOfTimeLoop(int numberOfLoops)
+        {
+            loadMods = true;
+            LoopCount = numberOfLoops;
         }
 
         //Ideia, no lugar de fazer patch no Assembly do jogo e ter chance de dar ruim, fazer com que isso ocorra nessa classe, como separação de
@@ -100,7 +110,7 @@ namespace DIMOWAModLoader
 
         void Update()
         {
-            if (levelIndex != Application.loadedLevel)
+            if (levelIndex != Application.loadedLevel || loadMods)
             {
                 AllLevelStart();
                 levelIndex = Application.loadedLevel;
@@ -108,6 +118,7 @@ namespace DIMOWAModLoader
                     MainMenuStart();
                 else if (levelIndex == 1)
                     SolarSystemStart();
+                loadMods = false;
             }
         }
     }
