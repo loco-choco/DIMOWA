@@ -1,4 +1,4 @@
-# DIMOWA 1.0.3 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
+# DIMOWA 1.0.3.1 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
 An universal mod installer (and future mod debugger) for Outer Wilds Alpha (version 1.2)
 
@@ -54,7 +54,7 @@ That happens because when the mod manager uninstall a mod it deletes the ddl fro
 
 * [OWBA](https://github.com/ShoosGun/OWBA) 
 * [Free Cam Mod](https://github.com/ShoosGun/FreeCamMod)
-* [Probe Graple Mod](https://github.com/ShoosGun/ProbeGrapleMod) (DIMOWA 1.0.2 only)
+* [Probe Grapple Mod](https://github.com/ShoosGun/ProbeGrappleMod)
 
 ## Credits
   - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
