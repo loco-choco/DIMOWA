@@ -21,7 +21,7 @@ namespace DIMOWAModLoader
         {
             clSocket = new ClientSocket();
         }
-        public void SendString(string data, DebugType debugType = DebugType.LOG,LogingType logingType = LogingType.SEND_AND_LOG)
+        public void SendLog(string data, DebugType debugType = DebugType.LOG,LogingType logingType = LogingType.SEND_AND_LOG)
         {
             
             if((logingType == LogingType.SEND_AND_LOG || logingType == LogingType.SEND) && clSocket.IsThereAConnection)
@@ -33,7 +33,7 @@ namespace DIMOWAModLoader
                 //4- a msg (string)
                 
 
-                clSocket.SendStringData(data, debugType);
+                clSocket.SendLog(data, debugType);
             }
 
             if (logingType == LogingType.SEND_AND_LOG || logingType == LogingType.LOG)
@@ -71,17 +71,26 @@ namespace DIMOWAModLoader
             }
             
         }
-        public void SendStringData(string data, DebugType debugType)
+        public void SendLog(string log, DebugType debugType)
         {
             //Melhorar isso para deixar tudo separado e bunitinho
             //1- cria o buffer, 2 - manda o tamanho do buffer, 3- manda o buffer
             if (debugType != 0)
             {
-                byte[] dataBuffer = Encoding.Default.GetBytes(data);
-                clientSck.Send(BitConverter.GetBytes((ushort)debugType));
-                clientSck.Send(BitConverter.GetBytes(Time.realtimeSinceStartup));
-                clientSck.Send(BitConverter.GetBytes(dataBuffer.Length), 0, 4, 0);
-                clientSck.Send(dataBuffer);
+
+                PacketWriter packetWriter = new PacketWriter();
+                packetWriter.Write((byte)debugType);
+                packetWriter.Write(Time.realtimeSinceStartup);
+                packetWriter.Write(log);
+
+                byte[] data = packetWriter.GetBytes();
+
+                clientSck.Send(BitConverter.GetBytes(data.Length));
+                clientSck.Send(data);
+
+                packetWriter.Close();
+
+
             }
         }
 

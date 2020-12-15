@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModDebugger
 {
-    public enum DebugType : ushort
+    public enum DebugType : byte
     {
         LOG = 1,
         WARNING,

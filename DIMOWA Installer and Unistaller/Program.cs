@@ -9,6 +9,7 @@ namespace DIMOWAIU
     {
         static void Main(string[] args)
         {
+            Console.Title = "DIMOWA Installer and Unistaller";
             Console.WriteLine("DIMOWA Installer and Unistaller");
             Patcher patcher = new Patcher("Assembly-CSharp.dll");
 

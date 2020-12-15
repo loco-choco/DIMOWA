@@ -23,6 +23,8 @@ namespace IMOWA
         
         static void Main(string[] args)
         {
+            //Colocar nome legal que aparece no topo da tela
+            Console.Title = "DIMOWA v.1.0.3.2";
 
             List<MOWAP> listOfMods = new List<MOWAP>();
 
@@ -129,7 +131,7 @@ namespace IMOWA
                 if ((resposta == "listademods" || resposta == "recarregar" || resposta == "refresh" || resposta == "menu" || resposta == "r") && indexofmod < 0)
                 {
                     Console.Clear();
-                    Console.WriteLine(" --- DIMOWA v.1.0.3 --- ");
+                    Console.WriteLine(" --- DIMOWA v.1.0.3.2 --- ");
                     for (int i = 0; i < listOfMods.Count; i++)
                     {
                         indexOfModInnits[i] = ModInstallingHandler.CheckIfModInstalled(listOfModTarget[i], patcher);

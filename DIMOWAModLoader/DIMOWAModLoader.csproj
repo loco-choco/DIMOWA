@@ -45,6 +45,7 @@
     <Compile Include="ClientDebuggerSide.cs" />
     <Compile Include="Headers.cs" />
     <Compile Include="LevelLoaderHandler.cs" />
+    <Compile Include="PacketIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
