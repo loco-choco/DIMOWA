@@ -13,7 +13,7 @@ namespace DIMOWAModLoader
         {
             if (!levelLoaderCreated)
             {
-                Debug.Log($"Esta inicinado por {porOndeTaInicializando}");
+                Debug.Log($"Esta iniciando por {porOndeTaInicializando}");
                 new GameObject("DIMOWALevelLoaderHandler").AddComponent<LevelLoaderHandler>();
                 Debug.Log("O GameObject do Handler foi criado");
 
@@ -23,6 +23,7 @@ namespace DIMOWAModLoader
 
         void Awake()
         {
+            Debug.Log("No awake de mod loader");
             gameObject.AddComponent<ClientDebuggerSide>();
             GlobalMessenger<int>.AddListener("StartOfTimeLoop", new Callback<int>(this.OnStartOfTimeLoop));
             DontDestroyOnLoad(gameObject);
