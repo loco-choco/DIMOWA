@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModDebugger", "ModDebugger\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugPacketIO", "DebugPacketIO\DebugPacketIO.csproj", "{BFD52411-7FB0-4498-8BED-FDAC31BD0694}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Debugging_and_SOckets", "Debugging_and_SOckets", "{6A34FC63-3B73-4716-96DF-9ED0F61FBBBB}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DebuggingAndSockets", "DebuggingAndSockets", "{6A34FC63-3B73-4716-96DF-9ED0F61FBBBB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

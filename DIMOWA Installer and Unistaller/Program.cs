@@ -2,6 +2,8 @@
 using IMOWA;
 using dnpatch;
 using dnlib.DotNet.Emit;
+using System.IO;
+using System.Reflection;
 
 namespace DIMOWAIU
 {
@@ -9,15 +11,17 @@ namespace DIMOWAIU
     {
         static void Main(string[] args)
         {
+            string programPath = Directory.GetCurrentDirectory();
+
             Console.Title = "DIMOWA Installer and Unistaller";
             Console.WriteLine("DIMOWA Installer and Unistaller");
-            Patcher patcher = new Patcher("Assembly-CSharp.dll");
+            Patcher patcher = new Patcher(programPath + @"\Assembly-CSharp.dll");
 
             Instruction[] modLoaderInstructions = new Instruction[]
             {
 
                 Instruction.Create(OpCodes.Ldstr   ,  "DIMOWA Level Loader Handler foi iniciado | was started"),
-                Instruction.Create(OpCodes.Call, patcher.BuildCall(typeof(UnityEngine.Debug), "Log" , typeof(void) , new[]{ typeof(object) })),
+                Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(programPath + @"\UnityEngine.dll").GetType("Debug"), "Log" , typeof(void) , new[]{ typeof(object) })),
                 Instruction.Create(OpCodes.Ldstr   ,  "TitleMenu - Awake"),
                 Instruction.Create(OpCodes.Call, patcher.BuildCall(typeof(DIMOWAModLoader.LevelLoaderHandler), "LevelLoaderInnit", typeof(void), new[] { typeof(string) }))
             };
@@ -32,7 +36,7 @@ namespace DIMOWAIU
                 InsertInstructions = true,
             };
             
-            int isModInstalled = ModInstallingHandler.CheckIfModInstalled(ModLoaderInnitTarget, patcher);
+            int isModInstalled = IMOWA.IMOWA.IndexOfInstalledMod(ModLoaderInnitTarget, patcher);
             bool programShouldBeOpen = true;
             if (isModInstalled >= 0)
             {
@@ -47,7 +51,7 @@ namespace DIMOWAIU
                     {
                         Console.WriteLine('\n' + "Desinstalando| Uninstalling . . .");
                         programShouldBeOpen = false;
-                        int modIsUnistalled = ModInstallingHandler.UninstallMod(ModLoaderInnitTarget, patcher, isModInstalled);
+                        int modIsUnistalled = IMOWA.IMOWA.UninstallMod(ModLoaderInnitTarget, patcher, isModInstalled);
                         patcher.Save(false);
 
                         if (modIsUnistalled == 0)
@@ -82,7 +86,7 @@ namespace DIMOWAIU
 
 
 
-                        int modIsIstalled = ModInstallingHandler.InstallMod(ModLoaderInnitTarget, patcher);
+                        int modIsIstalled = IMOWA.IMOWA.InstallMod(ModLoaderInnitTarget, patcher);
                         patcher.Save(false);
                         programShouldBeOpen = false;
                         if (modIsIstalled == 0)

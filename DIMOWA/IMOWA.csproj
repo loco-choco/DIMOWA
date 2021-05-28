@@ -62,38 +62,29 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
-    <Compile Include="ModInstallingHandler.cs" />
+    <Compile Include="JsonReader.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="IMOWA.cs" />
+    <Compile Include="ModManager.cs" />
     <Compile Include="MOWAP.cs" />
-    <Compile Include="DIMOWA.cs" />
-    <Compile Include="OldCAMOWASystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp - Copia">
-      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\Assembly-CSharp - Copia.dll</HintPath>
-    </Reference>
     <Reference Include="dnlib">
       <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnlib.dll</HintPath>
     </Reference>
     <Reference Include="dnpatch">
       <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnpatch.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DIMOWA_icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CAMOWA\CAMOWA.csproj">
-      <Project>{8034c813-8d42-464f-8f65-11d8f8c8c37b}</Project>
-      <Name>CAMOWA</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

@@ -1,6 +1,8 @@
 ﻿using System;
 using dnlib.DotNet.Emit;
 using dnpatch;
+using System.Reflection;
+using System.IO;
 
 
 namespace IMOWA
@@ -15,7 +17,7 @@ namespace IMOWA
 
         public string ModName { get; set; }
 
-        public string DllFileName { get; set; }
+        public string DllFilePath { get; set; }
 
         public int ModLoadingPlace { get; set; }
 
@@ -24,21 +26,41 @@ namespace IMOWA
 
     public class MOWAPMaker
     {
-        private readonly Target mainMenuStart = new Target()
+        private Type debugType;
+
+        public MOWAPMaker (string gameFolder)
+        {
+            var possibleFiles = Directory.GetFiles(gameFolder, "UnityEngine.dll", SearchOption.AllDirectories);
+            string unityEngineDllPath = "";
+            if (possibleFiles.Length > 0)
+                unityEngineDllPath = possibleFiles[0];
+            else
+                throw new Exception("UnityEngine.dll was not found inside the given game folder or inside its child's directories");
+
+            debugType = Assembly.LoadFrom(unityEngineDllPath).GetType("UnityEngine.Debug");
+        }
+
+        public MOWAPMaker(Assembly UnityEngine)
+        {
+            debugType = UnityEngine.GetType("UnityEngine.Debug");
+        }
+
+
+        private static readonly Target mainMenuStart = new Target()
         {
             Namespace = "DIMOWAModLoader",
             Class = "LevelLoaderHandler",
             Method = "MainMenuStart",
         };
 
-        private readonly Target solarSystemStart = new Target()
+        private static readonly Target solarSystemStart = new Target()
         {
             Namespace = "DIMOWAModLoader",
             Class = "LevelLoaderHandler",
             Method = "SolarSystemStart",
         };
 
-        private readonly Target allLevelStart = new Target()
+        private static readonly Target allLevelStart = new Target()
         {
             Namespace = "DIMOWAModLoader",
             Class = "LevelLoaderHandler",
@@ -47,12 +69,13 @@ namespace IMOWA
 
         public Target MOWAPModInnitTarget(Type modClass, string modInnitMethod, string modName, Patcher p, int modLoadingPlace = 0, int modPriority = 0)
         {
+
             //Padrão genérico das Instructions para os MOWA
             Instruction[] opcodesModInnit = {
-                Instruction.Create(OpCodes.Ldstr   ,  $"{modName} foi iniciado | was started"),
-                Instruction.Create(OpCodes.Call, p.BuildCall(typeof(UnityEngine.Debug), "Log" , typeof(void) , new[]{ typeof(object) })),
                 Instruction.Create(OpCodes.Ldstr   ,  modName),
-                Instruction.Create(OpCodes.Call, p.BuildCall(modClass, modInnitMethod, typeof(void), new[] { typeof(string) }))
+                Instruction.Create(OpCodes.Call, p.BuildCall(modClass, modInnitMethod, typeof(void), new[] { typeof(string) })),
+                Instruction.Create(OpCodes.Ldstr   ,  $"{modName} foi iniciado | was started"),
+                Instruction.Create(OpCodes.Call, p.BuildCall(debugType, "Log" , typeof(void) , new[]{ typeof(object) }))
                 };
 
             Target targetMod = new Target()

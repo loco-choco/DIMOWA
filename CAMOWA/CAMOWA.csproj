@@ -43,12 +43,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMOWAModIntaller.cs" />
+    <Compile Include="FileImporting\FbxImporter\AnimationRead\FBXAnimation.cs" />
+    <Compile Include="FileImporting\FbxImporter\AnimationRead\FBXAnimationCurves.cs" />
+    <Compile Include="FileImporting\FbxImporter\AnimationRead\FBXAnimationNodes.cs" />
+    <Compile Include="FileImporting\FbxImporter\FBXFileParser.cs" />
+    <Compile Include="FileImporting\FbxImporter\GenericFBXNodeRead\FBXPacketReader.cs" />
+    <Compile Include="FileImporting\FbxImporter\GenericFBXNodeRead\FBXProperty.cs" />
+    <Compile Include="FileImporting\FbxImporter\GenericFBXNodeRead\FBXRecordNode.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\CommonSrc\CRC32.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\CommonSrc\Iso8859Dash1Encoding.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\Deflate.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\DeflateStream.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\GZipStream.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\Inflate.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\InfTree.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\ParallelDeflateOutputStream.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\Tree.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\Zlib.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\ZlibBaseStream.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\ZlibCodec.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\ZlibConstants.cs" />
+    <Compile Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\ZlibStream.cs" />
     <Compile Include="BasicOWRigidbodyGO.cs" />
     <Compile Include="IMOWAModInnit.cs" />
-    <Compile Include="ObjImporter.cs" />
+    <Compile Include="FileImporting\ObjImporter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WWWHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\LICENSE.jzlib.txt" />
+    <Content Include="FileImporting\FbxImporter\Ionic.Zlib\Zlib\License.zlib.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -8,7 +8,6 @@ namespace CAMOWA //Classes Adicionais para Mods de Outer Wilds Alpha
     //IMOWAAnotations
     public class IMOWAModInnit : Attribute
     {
-        public string dataFileName;
         public int modLoadingPlace;
         public int modPriority;
         //Temporario \/
