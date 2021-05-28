@@ -11,7 +11,7 @@ namespace IMOWA
 
         static void Main(string[] args)
         {
-            string caminhoDoJogo = "" ,caminhoDaPastaDeMods = "", caminhoDaPastaDeManifestos =  "";
+            string caminhoDoJogo = "", caminhoDaPastaDeMods = "", caminhoDaPastaDeManifestos = "";
 
             string[] possibleConfig = Directory.GetFiles(Directory.GetCurrentDirectory(), "*config.json");
             if (possibleConfig.Length < 1)
@@ -22,7 +22,7 @@ namespace IMOWA
                 caminhoDaPastaDeMods = Console.ReadLine();
                 Console.WriteLine("Caminho dos manifestos");
                 caminhoDaPastaDeManifestos = Console.ReadLine();
-                
+
                 StreamWriter writer = new StreamWriter(File.Create(Directory.GetCurrentDirectory() + "/config.json"));
                 //Descobrir maneira de colocar a char " dentro da string de maneira, "mais bela"
                 string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo + (char)34
@@ -51,10 +51,10 @@ namespace IMOWA
                 JsonReader json = new JsonReader(todosOsJsons[i]);
                 dllsDosMods[i] = json.GetJsonElementFromRoot("filename").Value;
             }
-			
-            Type imowaModInnitType = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("CAMOWA.dll",caminhoDoJogo)).GetType("CAMOWA.IMOWAModInnit");
+
+            Type imowaModInnitType = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("CAMOWA.dll", caminhoDoJogo)).GetType("CAMOWA.IMOWAModInnit");
             Assembly unityEngine = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", caminhoDoJogo));
-            
+
             List<MOWAP> listOfMods = new List<MOWAP>();
             foreach (string fileName in new HashSet<string>(dllsDosMods))
                 listOfMods.Add(ModManager.GenerateModMOWAPsFromDll(caminhoDaPastaDeMods + @"\" + fileName, imowaModInnitType));
@@ -97,15 +97,32 @@ namespace IMOWA
             {
                 for (int i = 0; i < modStatus.Length; i++)
                 {
+                    string managedDirectoryPath = Directory.GetDirectories(caminhoDoJogo, "*Managed", SearchOption.AllDirectories)[0];
+                    string arquivoDoMod = listOfMods[i].DllFilePath.Remove(0, caminhoDaPastaDeMods.Length + 2);
+
                     if (modStatus[i])//Instalar == true
                     {
                         if (modManager.InstallMod(i))
+                        {
                             Console.WriteLine(listOfMods[i].ModName + " foi instalado com sucesso");
+                            if (Directory.GetFiles(managedDirectoryPath, arquivoDoMod).Length == 0)
+                            {
+                                Console.WriteLine("Arquivo nao estava na pasta, copiando ele para la");
+                                File.Copy(listOfMods[i].DllFilePath, managedDirectoryPath + '/' + arquivoDoMod);
+                            }
+                        }
                     }
                     else
                     {
                         if (modManager.UninstallMod(i))
+                        {
                             Console.WriteLine(listOfMods[i].ModName + " foi desinstalado com sucesso");
+                            if (Directory.GetFiles(managedDirectoryPath, arquivoDoMod).Length > 0)
+                            {
+                                Console.WriteLine("Arquivo estava na pasta, removendo ele de la");
+                                File.Delete(managedDirectoryPath + '/' + arquivoDoMod);
+                            }
+                        }
                     }
                 }
 

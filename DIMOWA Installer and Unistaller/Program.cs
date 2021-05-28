@@ -51,10 +51,10 @@ namespace DIMOWAIU
                     {
                         Console.WriteLine('\n' + "Desinstalando| Uninstalling . . .");
                         programShouldBeOpen = false;
-                        int modIsUnistalled = IMOWA.IMOWA.UninstallMod(ModLoaderInnitTarget, patcher, isModInstalled);
+                        bool modIsUnistalled = IMOWA.IMOWA.UninstallMod(ModLoaderInnitTarget, patcher, isModInstalled);
                         patcher.Save(false);
 
-                        if (modIsUnistalled == 0)
+                        if (modIsUnistalled)
                         {
                             Console.WriteLine("O mod foi desinstalado com sucesso");
                             Console.WriteLine("The mod was sucesffuly unistalled");
@@ -83,13 +83,10 @@ namespace DIMOWAIU
                     {
                         Console.WriteLine($"Instalando | Instaling DIMOWA");
 
-
-
-
-                        int modIsIstalled = IMOWA.IMOWA.InstallMod(ModLoaderInnitTarget, patcher);
+                        bool modIsIstalled = IMOWA.IMOWA.InstallMod(ModLoaderInnitTarget, patcher);
                         patcher.Save(false);
                         programShouldBeOpen = false;
-                        if (modIsIstalled == 0)
+                        if (modIsIstalled)
                         {
                             Console.WriteLine("DIMOWA foi instalado com sucesso");
                             Console.WriteLine("DIMOWA was sucesffuly installed");
