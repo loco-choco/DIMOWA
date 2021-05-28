@@ -28,9 +28,9 @@ An universal mod installer (and mod debugger) for Outer Wilds Alpha (version 1.2
 4. Some mods use assets like 3d meshes, textures and sounds, and for them to work you need to create a folder called `Assets` and place it inside `OuterWilds_Alpha_1_2_Data`, then place the assets inside that folder (the path of those files should look like this: `\OuterWilds_Alpha_1_2_Data\Assets\[name  of the file].wav`)
 
 #### Uninstalling mods
-1. //
+1. Have a **valid** mod dll in the `mods` folder
 
-2. Select the number from the list that is prompet for you, or write *ua* or *dt* to unintall all the mods
+2. Select the number from the list that is prompted for you, or write *ua* or *dt* to unintall all the mods
 
 3. Write *yes* or *sim* to uninstall the mod, you can then type *r* to refresh the main page and check to see if the mod is uninstalled
 
