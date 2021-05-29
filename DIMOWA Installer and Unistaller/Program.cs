@@ -29,9 +29,9 @@ namespace DIMOWAIU
 
             Patcher patcher = new Patcher(ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolderPath));
             string programPath = Directory.GetCurrentDirectory();
+            
             Instruction[] modLoaderInstructions = new Instruction[]
             {
-
                 Instruction.Create(OpCodes.Ldstr   ,  "DIMOWA Level Loader Handler foi iniciado | was started"),
                 Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll",gameFolderPath)).GetType("UnityEngine.Debug"), "Log" , typeof(void) , new[]{ typeof(object) })),
                 Instruction.Create(OpCodes.Ldstr   ,  "TitleMenu - Awake"),
