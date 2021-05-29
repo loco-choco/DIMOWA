@@ -52,10 +52,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DIMOWAModLoader\DIMOWAModLoader.csproj">
-      <Project>{03331141-f650-448c-a0d8-107d04d5cebf}</Project>
-      <Name>DIMOWAModLoader</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DIMOWA\IMOWA.csproj">
       <Project>{d76aa204-1265-4785-a4ae-0ea9caafa1ee}</Project>
       <Name>IMOWA</Name>

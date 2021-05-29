@@ -8,7 +8,6 @@ namespace IMOWA
 {
     class MainLoop
     {
-
         static void Main(string[] args)
         {
             string caminhoDoJogo = "", caminhoDaPastaDeMods = "", caminhoDaPastaDeManifestos = "";
@@ -16,11 +15,11 @@ namespace IMOWA
             string[] possibleConfig = Directory.GetFiles(Directory.GetCurrentDirectory(), "*config.json");
             if (possibleConfig.Length < 1)
             {
-                Console.WriteLine("Caminho do jogo");
+                Console.WriteLine("Game Path (can be any path that has the 'Managed' folder inside it)");
                 caminhoDoJogo = Console.ReadLine();
-                Console.WriteLine("Caminho da pasta de mods");
+                Console.WriteLine("Mod folder path");
                 caminhoDaPastaDeMods = Console.ReadLine();
-                Console.WriteLine("Caminho dos manifestos");
+                Console.WriteLine("Mod's manifest path (can be same path of the mod folder)");
                 caminhoDaPastaDeManifestos = Console.ReadLine();
 
                 StreamWriter writer = new StreamWriter(File.Create(Directory.GetCurrentDirectory() + "/config.json"));
@@ -70,30 +69,33 @@ namespace IMOWA
             {
                 Console.Clear();
                 Console.WriteLine($" {modManager.AmountOfMods()} Mods ");
-                Console.WriteLine(listOfMods[0].ModName + " esta ativado? " + modStatus[0]);
-                Console.WriteLine("Index do mod");
+                Console.WriteLine("Mod index | Mod Name | Mod Status");
+                for(int i =0;i<modStatus.Length;i++)
+                    Console.WriteLine($"{i} - Is " + listOfMods[i].ModName + " enabled? " + (modStatus[i]?"yes":"no"));
+
+                Console.WriteLine("Write the mod index to have more options, and 'close' to close the program");
                 string str = Console.ReadLine();
                 try
                 {
                     if (str == "close")
                         break;
                     int index = Convert.ToInt32(str);
-                    Console.WriteLine("Ativar/Desativar " + listOfMods[index].ModName);
+                    Console.WriteLine("Do you want to enable or disable " + listOfMods[index].ModName + "? (enable/disable)");
                     str = Console.ReadLine();
-                    if (str.ToLower() == "ativar")
+                    if (str.ToLower() == "enable")
                         modStatus[index] = true;
-                    else if (str.ToLower() == "desativar")
+                    else if (str.ToLower() == "disable")
                         modStatus[index] = false;
                 }
                 catch
                 {
-                    Console.WriteLine("O valor dado nao eh numerico ou eh invalido (ex: negativo ou acima do tamanho da lista)");
+                    Console.WriteLine("The value you gave isn't numeric or it isn't valid (ie: negative or above the size of the mod list)");
                     Console.ReadLine();
                 }
             }
-            Console.WriteLine("Efetuar as modificacoes no jogo?(sim/nao)");
+            Console.WriteLine("Perform the changes to the game?(yes/no)");
             string s = Console.ReadLine();
-            if (s.ToLower() == "sim")
+            if (s.ToLower() == "yes")
             {
                 for (int i = 0; i < modStatus.Length; i++)
                 {
@@ -104,10 +106,10 @@ namespace IMOWA
                     {
                         if (modManager.InstallMod(i))
                         {
-                            Console.WriteLine(listOfMods[i].ModName + " foi instalado com sucesso");
+                            Console.WriteLine(listOfMods[i].ModName + " has been successfully installed");
                             if (Directory.GetFiles(managedDirectoryPath, arquivoDoMod).Length == 0)
                             {
-                                Console.WriteLine("Arquivo nao estava na pasta, copiando ele para la");
+                                Console.WriteLine("File wasn't in the folder, copying it there");
                                 File.Copy(listOfMods[i].DllFilePath, managedDirectoryPath + '/' + arquivoDoMod);
                             }
                         }
@@ -116,10 +118,10 @@ namespace IMOWA
                     {
                         if (modManager.UninstallMod(i))
                         {
-                            Console.WriteLine(listOfMods[i].ModName + " foi desinstalado com sucesso");
+                            Console.WriteLine(listOfMods[i].ModName + " has been successfully uninstalled");
                             if (Directory.GetFiles(managedDirectoryPath, arquivoDoMod).Length > 0)
                             {
-                                Console.WriteLine("Arquivo estava na pasta, removendo ele de la");
+                                Console.WriteLine("File is still in the folder, removing it from there");
                                 File.Delete(managedDirectoryPath + '/' + arquivoDoMod);
                             }
                         }
@@ -127,10 +129,10 @@ namespace IMOWA
                 }
 
                 modManager.SaveModifications();
-                Console.WriteLine("Todas as modificacoes foram efetuadas e salvas");
+                Console.WriteLine("All the changes have been performed and saved");
             }
 
-            Console.WriteLine("Pressione ENTER para fechar a janela. . .");
+            Console.WriteLine("Press ENTER to close the window. . .");
             Console.ReadLine();
         }
     }

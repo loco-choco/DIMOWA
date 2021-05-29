@@ -11,19 +11,31 @@ namespace DIMOWAIU
     {
         static void Main(string[] args)
         {
-            string programPath = Directory.GetCurrentDirectory();
+            string[] requiredImowaFiles =
+            {
+                "CAMOWA.dll",
+                "DIMOWAModLoader.dll"
+            };
+            string[] optionalImowaFiles =
+            {
+                "0Harmony.dll",
+                "HarmonyDnet2Fixes.dll"
+            };
 
             Console.Title = "DIMOWA Installer and Unistaller";
             Console.WriteLine("DIMOWA Installer and Unistaller");
-            Patcher patcher = new Patcher(programPath + @"\Assembly-CSharp.dll");
+            Console.Write("Escreva o caminho da pasta do jogo / Write the path for the game folder: ");
+            string gameFolderPath = Console.ReadLine();
 
+            Patcher patcher = new Patcher(ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolderPath));
+            string programPath = Directory.GetCurrentDirectory();
             Instruction[] modLoaderInstructions = new Instruction[]
             {
 
                 Instruction.Create(OpCodes.Ldstr   ,  "DIMOWA Level Loader Handler foi iniciado | was started"),
-                Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(programPath + @"\UnityEngine.dll").GetType("Debug"), "Log" , typeof(void) , new[]{ typeof(object) })),
+                Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll",gameFolderPath)).GetType("UnityEngine.Debug"), "Log" , typeof(void) , new[]{ typeof(object) })),
                 Instruction.Create(OpCodes.Ldstr   ,  "TitleMenu - Awake"),
-                Instruction.Create(OpCodes.Call, patcher.BuildCall(typeof(DIMOWAModLoader.LevelLoaderHandler), "LevelLoaderInnit", typeof(void), new[] { typeof(string) }))
+                Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(ModManager.GetFilePathInDirectory("DIMOWAModLoader.dll",programPath)).GetType("DIMOWAModLoader.LevelLoaderHandler"), "DIMOWAModLoader.LevelLoaderInnit", typeof(void), new[] { typeof(string) }))
             };
 
             Target ModLoaderInnitTarget = new Target
@@ -35,7 +47,18 @@ namespace DIMOWAIU
                 Instructions = modLoaderInstructions,
                 InsertInstructions = true,
             };
-            
+			
+            string managedPath = ModManager.GetFilePathInDirectory("UnityEngine.dll", gameFolderPath);
+            managedPath = managedPath.Remove(managedPath.Length - "UnityEngine.dll".Length -1);
+            Console.WriteLine($"(All these files are supposed to be copied to {managedPath})");
+            Console.WriteLine("These files  are required for mods and for the manager to work:");
+            foreach (string s in requiredImowaFiles)
+                Console.WriteLine("    " + s + " - status - " + (IsTheFileThere(s, managedPath) ? "File is in the folder" : "File is not in the folder"));
+            Console.WriteLine("These files  aren't required for the manager to work, but some mods need them:");
+            foreach (string s in optionalImowaFiles)
+                Console.WriteLine("    " + s + " - status - " + (IsTheFileThere(s, managedPath) ? "File is in the folder" : "File is not in the folder"));
+            Console.WriteLine();
+
             int isModInstalled = IMOWA.IMOWA.IndexOfInstalledMod(ModLoaderInnitTarget, patcher);
             bool programShouldBeOpen = true;
             if (isModInstalled >= 0)
@@ -58,6 +81,8 @@ namespace DIMOWAIU
                         {
                             Console.WriteLine("O mod foi desinstalado com sucesso");
                             Console.WriteLine("The mod was sucesffuly unistalled");
+
+                            
                         }
                         else
                         {
@@ -104,6 +129,11 @@ namespace DIMOWAIU
             Console.WriteLine("Pressione ENTER para fechar o programa");
             Console.WriteLine("Press ENTER to close the program");
             Console.ReadLine();
+        }
+
+        static bool IsTheFileThere(string fileName, string path)
+        {
+            return Directory.GetFiles(path, fileName).Length > 0;
         }
     }
 }
