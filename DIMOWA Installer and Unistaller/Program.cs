@@ -41,7 +41,7 @@ namespace DIMOWAIU
             Target ModLoaderInnitTarget = new Target
             {
                 Namespace = "",
-                Class = "TitleScreenMenu",
+                Class = "MainMenuHandler",
                 Method = "Awake",
                 Indices = new int[] { 0,1,2,3},
                 Instructions = modLoaderInstructions,
