@@ -7,7 +7,6 @@ namespace DIMOWAModLoader
         static private bool levelLoaderCreated = false;
         private int levelIndex = -1;
         bool loadMods = false;
-        public int LoopCount { get; private set; }
         
         public static void LevelLoaderInnit(string porOndeTaInicializando)
         {
@@ -25,14 +24,12 @@ namespace DIMOWAModLoader
         {
             Debug.Log("No awake de mod loader");
             gameObject.AddComponent<ClientDebuggerSide>();
-            GlobalMessenger<int>.AddListener("StartOfTimeLoop", new Callback<int>(this.OnStartOfTimeLoop));
             DontDestroyOnLoad(gameObject);
         }
 
         void OnStartOfTimeLoop(int numberOfLoops)
         {
             loadMods = true;
-            LoopCount = numberOfLoops;
         }
 
         //Ideia, no lugar de fazer patch no Assembly do jogo e ter chance de dar ruim, fazer com que isso ocorra nessa classe, como separação de
@@ -63,27 +60,27 @@ namespace DIMOWAModLoader
             MainMenuStartLow();
         }
 
-        void SolarSystemStarttHigh()
+        void GameStartHigh()
         {
             Debug.Log("High Priority Mods");//0
         }
 
-        void SolarSystemStartRegular()
+        void GameStartRegular()
         {
             Debug.Log("Regular Priority Mods");//1
         }
 
-        void SolarSystemStartLow()
+        void GameStartLow()
         {
             Debug.Log("Low Priority Mods");//2
         }
 
-        void SolarSystemStart()//1
+        void GameStart()//1
         {
-            Debug.Log("SolarSystemStart");
-            SolarSystemStarttHigh();
-            SolarSystemStartRegular();
-            SolarSystemStartLow();
+            Debug.Log("GameStartStart");
+            GameStartHigh();
+            GameStartRegular();
+            GameStartLow();
         }
 
         void AllLevelStartHigh()
@@ -118,7 +115,7 @@ namespace DIMOWAModLoader
                 if (levelIndex == 0)
                     MainMenuStart();
                 else if (levelIndex == 1)
-                    SolarSystemStart();
+                    GameStart();
                 loadMods = false;
             }
         }
