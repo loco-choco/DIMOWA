@@ -29,10 +29,11 @@ namespace DIMOWAIU
 
             Patcher patcher = new Patcher(ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolderPath));
             string programPath = Directory.GetCurrentDirectory();
-
-            var b = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", gameFolderPath));
+            
+            var c = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", gameFolderPath));
+            var h = c.GetTypes();
             var a = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("DIMOWAModLoader.dll", programPath));
-            a.GetTypes();
+            var b = a.GetTypes(); //PQ N TA CARREGANDO AS COISAS DO ASSEMBLY AAAAAAAAAAAAAAAA
             Instruction[] modLoaderInstructions = new Instruction[]
             {
                 Instruction.Create(OpCodes.Ldstr   ,  "DIMOWA Level Loader Handler foi iniciado | was started"),
@@ -48,7 +49,7 @@ namespace DIMOWAIU
                 Method = "Awake",
                 Indices = new int[] { 0,1,2,3},
                 Instructions = modLoaderInstructions,
-                InsertInstructions = true,
+                InsertInstructions = true,                
             };
 			
             string managedPath = ModManager.GetFilePathInDirectory("UnityEngine.dll", gameFolderPath);
@@ -112,7 +113,7 @@ namespace DIMOWAIU
                         Console.WriteLine($"Instalando | Instaling DIMOWA");
 
                         bool modIsIstalled = IMOWA.IMOWA.InstallMod(ModLoaderInnitTarget, patcher);
-                        patcher.Save(false);
+                        patcher.Save(true);
                         programShouldBeOpen = false;
                         if (modIsIstalled)
                         {
