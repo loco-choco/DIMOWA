@@ -17,10 +17,11 @@ namespace IMOWA
             {
                 Console.WriteLine("Game Path (can be any path that has the 'Managed' folder inside it)");
                 caminhoDoJogo = Console.ReadLine();
-                Console.WriteLine("Mod folder path");
+                Console.WriteLine("Mod/Manifest folder path");
                 caminhoDaPastaDeMods = Console.ReadLine();
-                Console.WriteLine("Mod's manifest path (can be same path of the mod folder)");
-                caminhoDaPastaDeManifestos = Console.ReadLine();
+                caminhoDaPastaDeManifestos = caminhoDaPastaDeMods;
+                //Console.WriteLine("Mod's manifest path (can be same path of the mod folder)");
+                //caminhoDaPastaDeManifestos = Console.ReadLine();
 
                 StreamWriter writer = new StreamWriter(File.Create(Directory.GetCurrentDirectory() + "/config.json"));
                 //Descobrir maneira de colocar a char " dentro da string de maneira, "mais bela"
@@ -42,7 +43,7 @@ namespace IMOWA
 
 
             //novo formato 
-            string[] todosOsJsons = Directory.GetFiles(caminhoDaPastaDeManifestos, "*manifest.json");
+            string[] todosOsJsons = Directory.GetFiles(caminhoDaPastaDeManifestos, "*manifest.json", SearchOption.AllDirectories);
             string[] dllsDosMods = new string[todosOsJsons.Length];
 
             for (int i = 0; i < todosOsJsons.Length; i++)
@@ -56,7 +57,7 @@ namespace IMOWA
 
             List<MOWAP> listOfMods = new List<MOWAP>();
             foreach (string fileName in new HashSet<string>(dllsDosMods))
-                listOfMods.Add(ModManager.GenerateModMOWAPsFromDll(caminhoDaPastaDeMods + @"\" + fileName, imowaModInnitType));
+                listOfMods.Add(ModManager.GenerateModMOWAPsFromDll(ModManager.GetFilePathInDirectory(fileName, caminhoDaPastaDeMods), imowaModInnitType));
 
 
             //A parte interesante, agora muito mais facil de usar:tm:

@@ -27,15 +27,34 @@ namespace DIMOWAIU
             Console.Write("Escreva o caminho da pasta do jogo / Write the path for the game folder: ");
             string gameFolderPath = Console.ReadLine();
 
-            Patcher patcher = new Patcher(ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolderPath));
-            string programPath = Directory.GetCurrentDirectory();
-            Instruction[] modLoaderInstructions = new Instruction[]
-            {
+            string assemblyPath = ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolderPath);
+            Patcher patcher = new Patcher(assemblyPath);
 
+            string managedFolder = assemblyPath.Remove(assemblyPath.Length - "Assembly-CSharp.dll".Length - 1, "Assembly-CSharp.dll".Length + 1);
+            if(Directory.GetFiles(managedFolder, "DIMOWAModLoader.dll").Length == 0)
+            {
+                Console.Write($"For you to be able to run the installer the file DIMOWAModLoader.dll needs to be in the folder {managedFolder}, do you want to copy it there?(yes/no) ");
+                string a = Console.ReadLine();
+                if (a == "yes")
+                    File.Copy(Directory.GetCurrentDirectory() + "\\DIMOWAModLoader.dll", managedFolder + "\\DIMOWAModLoader.dll");
+                else
+                {
+                    Console.WriteLine("Pressione ENTER para fechar o programa");
+                    Console.WriteLine("Press ENTER to close the program");
+                    Console.ReadLine();
+                    return;
+                }
+
+            }
+
+            Assembly unityEngineDebug = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", gameFolderPath));
+            Assembly levelLoader = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("DIMOWAModLoader.dll", gameFolderPath));// ("LevelLoaderHandler");
+
+            Instruction[] modLoaderInstructions = {
                 Instruction.Create(OpCodes.Ldstr   ,  "DIMOWA Level Loader Handler foi iniciado | was started"),
-                Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll",gameFolderPath)).GetType("UnityEngine.Debug"), "Log" , typeof(void) , new[]{ typeof(object) })),
+                Instruction.Create(OpCodes.Call, patcher.BuildCall(unityEngineDebug.GetType("UnityEngine.Debug"), "Log" , typeof(void) , new[]{ typeof(object) })),
                 Instruction.Create(OpCodes.Ldstr   ,  "TitleMenu - Awake"),
-                Instruction.Create(OpCodes.Call, patcher.BuildCall(Assembly.LoadFrom(ModManager.GetFilePathInDirectory("DIMOWAModLoader.dll",programPath)).GetType("DIMOWAModLoader.LevelLoaderHandler"), "DIMOWAModLoader.LevelLoaderInnit", typeof(void), new[] { typeof(string) }))
+                Instruction.Create(OpCodes.Call, patcher.BuildCall(levelLoader.GetType("DIMOWAModLoader.LevelLoaderHandler"), "LevelLoaderInnit", typeof(void), new[] { typeof(string) }))
             };
 
             Target ModLoaderInnitTarget = new Target
