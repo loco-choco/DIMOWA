@@ -25,9 +25,9 @@ namespace IMOWA
 
                 StreamWriter writer = new StreamWriter(File.Create(Directory.GetCurrentDirectory() + "/config.json"));
                 //Descobrir maneira de colocar a char " dentro da string de maneira, "mais bela"
-                string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo + (char)34
-                    + ",\n  " + (char)34 + "pastaDeMods" + (char)34 + ": " + (char)34 + caminhoDaPastaDeMods + (char)34
-                    + ",\n  " + (char)34 + "pastaDeManifestos" + (char)34 + ": " + (char)34 + caminhoDaPastaDeManifestos + (char)34
+                string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo.Replace("\\","/") + (char)34
+                    + ",\n  " + (char)34 + "pastaDeMods" + (char)34 + ": " + (char)34 + caminhoDaPastaDeMods.Replace("\\", "/") + (char)34
+                    + ",\n  " + (char)34 + "pastaDeManifestos" + (char)34 + ": " + (char)34 + caminhoDaPastaDeManifestos.Replace("\\", "/") + (char)34
                     + "\n}";
                 writer.Write(json);
                 writer.Flush();
