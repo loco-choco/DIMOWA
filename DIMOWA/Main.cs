@@ -25,7 +25,7 @@ namespace IMOWA
 
                 StreamWriter writer = new StreamWriter(File.Create(Directory.GetCurrentDirectory() + "/config.json"));
                 //Descobrir maneira de colocar a char " dentro da string de maneira, "mais bela"
-                string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo.Replace("\\","/") + (char)34
+                string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo.Replace("\\", "/") + (char)34
                     + ",\n  " + (char)34 + "pastaDeMods" + (char)34 + ": " + (char)34 + caminhoDaPastaDeMods.Replace("\\", "/") + (char)34
                     + ",\n  " + (char)34 + "pastaDeManifestos" + (char)34 + ": " + (char)34 + caminhoDaPastaDeManifestos.Replace("\\", "/") + (char)34
                     + "\n}";
@@ -56,8 +56,9 @@ namespace IMOWA
             Assembly unityEngine = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", caminhoDoJogo));
 
             List<MOWAP> listOfMods = new List<MOWAP>();
+            ModDataGatherer gatherer = new ModDataGatherer(caminhoDaPastaDeMods, caminhoDoJogo);
             foreach (string fileName in new HashSet<string>(dllsDosMods))
-                listOfMods.Add(ModManager.GenerateModMOWAPsFromDll(ModManager.GetFilePathInDirectory(fileName, caminhoDaPastaDeMods), imowaModInnitType));
+                listOfMods.Add(gatherer.GenerateModMOWAPFromDll(fileName, imowaModInnitType));
 
 
             //A parte interesante, agora muito mais facil de usar:tm:
@@ -71,8 +72,8 @@ namespace IMOWA
                 Console.Clear();
                 Console.WriteLine($" {modManager.AmountOfMods()} Mods ");
                 Console.WriteLine("Mod index | Mod Name | Mod Status");
-                for(int i =0;i<modStatus.Length;i++)
-                    Console.WriteLine($"{i} - Is " + listOfMods[i].ModName + " enabled? " + (modStatus[i]?"yes":"no"));
+                for (int i = 0; i < modStatus.Length; i++)
+                    Console.WriteLine($"{i} - Is " + listOfMods[i].ModName + " enabled? " + (modStatus[i] ? "yes" : "no"));
 
                 Console.WriteLine("Write the mod index to have more options, and 'close' to close the program");
                 string str = Console.ReadLine();
