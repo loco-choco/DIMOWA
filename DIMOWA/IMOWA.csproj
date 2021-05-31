@@ -65,6 +65,7 @@
     <Compile Include="JsonReader.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="IMOWA.cs" />
+    <Compile Include="ModDataGatherer.cs" />
     <Compile Include="ModManager.cs" />
     <Compile Include="MOWAP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

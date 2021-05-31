@@ -55,9 +55,9 @@ namespace IMOWA
             Assembly unityEngine = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", caminhoDoJogo));
 
             List<MOWAP> listOfMods = new List<MOWAP>();
+            ModDataGatherer gatherer = new ModDataGatherer(caminhoDaPastaDeMods, caminhoDoJogo);
             foreach (string fileName in new HashSet<string>(dllsDosMods))
-                listOfMods.Add(ModManager.GenerateModMOWAPsFromDll(caminhoDaPastaDeMods + @"\" + fileName, imowaModInnitType));
-
+                listOfMods.Add(gatherer.GenerateModMOWAPFromDll(fileName, imowaModInnitType));
 
             //A parte interesante, agora muito mais facil de usar:tm:
             Console.Title = "IMOWA 1.4";

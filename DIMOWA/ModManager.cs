@@ -119,9 +119,7 @@ namespace IMOWA
         public void RefreshAfterSave()
         {
             patcher = new Patcher(dimowaPath);
-        }
-
-        
+        }        
         public static string GetFilePathInDirectory(string fileName, string folder)
         {
             var possibleFiles = Directory.GetFiles(folder, fileName, SearchOption.AllDirectories);
@@ -130,56 +128,5 @@ namespace IMOWA
             else
                 throw new Exception($"{fileName} was not found inside {folder} or inside its child's directories");
         }
-        public static MOWAP GenerateModMOWAPsFromDll(string path, Type imowaModInnitType)
-        {
-            MOWAP mowap = new MOWAP();
-            Type[] classesNoDll = Assembly.LoadFrom(path).GetTypes();
-            //Ir em cada classe 
-            foreach (Type classeDoDll in classesNoDll)
-            {
-                //Ir em cada método de cada classe
-                foreach (MethodInfo mInfo in classeDoDll.GetMethods())
-                {
-                    //Ir em cada atributo de cada método
-                    foreach (Attribute attr in Attribute.GetCustomAttributes(mInfo))
-                    {
-                        // Ver se é o atributo que queremos
-                        if (attr.GetType() == imowaModInnitType)
-                        {
-                            string modName = "";
-                            int modLoadingPlace = 0, modPriority = 0;
-                            FieldInfo[] fields = attr.GetType().GetFields();
-
-                            foreach (FieldInfo f in fields)
-                            {
-                                if (f.Name == "modName")
-                                    modName = (string)f.GetValue(attr);
-                                else if (f.Name == "modLoadingPlace")
-                                    modLoadingPlace = (int)f.GetValue(attr);
-                                else if (f.Name == "modPriority")
-                                    modPriority = (int)f.GetValue(attr);
-                            }
-                            
-                            mowap = new MOWAP()
-                            {
-                                ModType = classeDoDll,
-                                ModInnitMethod = mInfo.Name,
-                                ModName = modName,
-                                ModLoadingPlace = modLoadingPlace,
-                                ModPriority = modPriority,
-                                DllFilePath = path,
-                            };
-                            break;
-                        }
-                    }
-                    if (mowap.ModInnitMethod == mInfo.Name)
-                        break;
-                }
-                if (mowap.ModType == classeDoDll)
-                    break;
-            }
-            return mowap;
-        }
-
     }
 }
