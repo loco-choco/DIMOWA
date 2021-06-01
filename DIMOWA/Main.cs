@@ -102,7 +102,7 @@ namespace IMOWA
                 for (int i = 0; i < modStatus.Length; i++)
                 {
                     string managedDirectoryPath = Directory.GetDirectories(caminhoDoJogo, "*Managed", SearchOption.AllDirectories)[0];
-                    string arquivoDoMod = listOfMods[i].DllFilePath.Remove(0, caminhoDaPastaDeMods.Length + 2);
+                    string arquivoDoMod = dllsDosMods[i];
 
                     if (modStatus[i])//Instalar == true
                     {
