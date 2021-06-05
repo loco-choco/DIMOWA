@@ -17,16 +17,15 @@ namespace IMOWA
             {
                 Console.WriteLine("Game Path (can be any path that has the 'Managed' folder inside it)");
                 caminhoDoJogo = Console.ReadLine();
-                Console.WriteLine("Mod folder path");
+                Console.WriteLine("Mod/Manifest folder path");
                 caminhoDaPastaDeMods = Console.ReadLine();
-                Console.WriteLine("Mod's manifest path (can be same path of the mod folder)");
-                caminhoDaPastaDeManifestos = Console.ReadLine();
+                caminhoDaPastaDeManifestos = caminhoDaPastaDeMods;
 
                 StreamWriter writer = new StreamWriter(File.Create(Directory.GetCurrentDirectory() + "/config.json"));
                 //Descobrir maneira de colocar a char " dentro da string de maneira, "mais bela"
-                string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo + (char)34
-                    + ",\n  " + (char)34 + "pastaDeMods" + (char)34 + ": " + (char)34 + caminhoDaPastaDeMods + (char)34
-                    + ",\n  " + (char)34 + "pastaDeManifestos" + (char)34 + ": " + (char)34 + caminhoDaPastaDeManifestos + (char)34
+                string json = "{\n  " + (char)34 + "pastaDoJogo" + (char)34 + ": " + (char)34 + caminhoDoJogo.Replace("\\", "/") + (char)34
+                    + ",\n  " + (char)34 + "pastaDeMods" + (char)34 + ": " + (char)34 + caminhoDaPastaDeMods.Replace("\\", "/") + (char)34
+                    + ",\n  " + (char)34 + "pastaDeManifestos" + (char)34 + ": " + (char)34 + caminhoDaPastaDeManifestos.Replace("\\", "/") + (char)34
                     + "\n}";
                 writer.Write(json);
                 writer.Flush();
