@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IMOWA
 {
@@ -61,6 +57,7 @@ namespace IMOWA
                                 ModLoadingPlace = modLoadingPlace,
                                 ModPriority = modPriority,
                                 DllFilePath = path,
+                                Dependencies = ParseReferences(modAssembly.GetReferencedAssemblies())
                             };
                             break;
                         }
@@ -73,6 +70,15 @@ namespace IMOWA
             }
             return mowap;
         }
+        static public string[] ParseReferences(AssemblyName[] assemblies)
+        {
+            string[] files = new string[assemblies.Length];
+            for (int i = 0; i < assemblies.Length; i++)
+                files[i] = (assemblies[i].Name + ".dll");
+
+            return files;
+        }
+
         //https://weblog.west-wind.com/posts/2016/Dec/12/Loading-NET-Assemblies-out-of-Seperate-Folders
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {           
@@ -95,10 +101,15 @@ namespace IMOWA
             }
             try
             {
-                return Assembly.LoadFrom(filePath);
+                if(filePath != "")
+                    return Assembly.LoadFrom(filePath);
+
+                Console.WriteLine("Couldn't find the reference: " + filename);
+                return null;
             }
             catch
             {
+                Console.WriteLine("Couldn't load the reference in : " + filePath);
                 return null;
             }
 

@@ -128,7 +128,17 @@ namespace IMOWA
             if (possibleFiles.Length > 0)
                 return possibleFiles[0];
             else
-                throw new Exception($"{fileName} was not found inside {folder} or inside its child's directories");
+                throw new FileNotFoundException($"{fileName} was not found inside {folder} or inside its child's directories");
+        }
+        public static string GetDirectoryInDirectory(string directoryName, string folder)
+        {
+            var possibleDirectories = Directory.GetDirectories(folder, directoryName, SearchOption.AllDirectories);
+            if (possibleDirectories.Length > 0)
+                return possibleDirectories[0];
+            else
+                throw new DirectoryNotFoundException($"{directoryName} was not found inside {folder} or inside its child's directories");
         }
     }
+
+    
 }

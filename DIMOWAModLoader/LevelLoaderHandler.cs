@@ -63,7 +63,7 @@ namespace DIMOWAModLoader
             MainMenuStartLow();
         }
 
-        void SolarSystemStarttHigh()
+        void SolarSystemStartHigh()
         {
             Debug.Log("High Priority Mods");//0
         }
@@ -81,7 +81,7 @@ namespace DIMOWAModLoader
         void SolarSystemStart()//1
         {
             Debug.Log("SolarSystemStart");
-            SolarSystemStarttHigh();
+            SolarSystemStartHigh();
             SolarSystemStartRegular();
             SolarSystemStartLow();
         }

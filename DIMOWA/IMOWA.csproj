@@ -62,6 +62,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <ItemGroup>
+    <Compile Include="DIMOWALoaderInstaller.cs" />
     <Compile Include="JsonReader.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="IMOWA.cs" />
