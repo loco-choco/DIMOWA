@@ -7,7 +7,7 @@
     <ProjectGuid>{D76AA204-1265-4785-A4AE-0EA9CAAFA1EE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IMOWA</RootNamespace>
-    <AssemblyName>DIMOWA</AssemblyName>
+    <AssemblyName>IMOWA</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -61,7 +61,11 @@
     <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DIMOWAModLoaderInstaller.cs" />
     <Compile Include="JsonReader.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="IMOWA.cs" />
@@ -80,14 +84,11 @@
     <Reference Include="dnpatch">
       <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnpatch.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DIMOWA_icon.ico" />

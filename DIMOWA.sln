@@ -13,13 +13,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CAMOWA", "CAMOWA\CAMOWA.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIMOWAModLoader", "DIMOWAModLoader\DIMOWAModLoader.csproj", "{03331141-F650-448C-A0D8-107D04D5CEBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIMOWA Installer and Unistaller", "DIMOWA Installer and Unistaller\DIMOWA Installer and Unistaller.csproj", "{250B2A39-5EDC-4483-8227-D6FCF8476C0E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModDebugger", "ModDebugger\ModDebugger.csproj", "{39E9CA9C-DF50-4CF4-89C7-D093334A17FC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugPacketIO", "DebugPacketIO\DebugPacketIO.csproj", "{BFD52411-7FB0-4498-8BED-FDAC31BD0694}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DebuggingAndSockets", "DebuggingAndSockets", "{6A34FC63-3B73-4716-96DF-9ED0F61FBBBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOWA GUI", "IMOWA GUI\IMOWA GUI.csproj", "{2FCED596-4616-443E-AFFA-F279021BD7C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,10 +43,6 @@ Global
 		{03331141-F650-448C-A0D8-107D04D5CEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03331141-F650-448C-A0D8-107D04D5CEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03331141-F650-448C-A0D8-107D04D5CEBF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{250B2A39-5EDC-4483-8227-D6FCF8476C0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{250B2A39-5EDC-4483-8227-D6FCF8476C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{250B2A39-5EDC-4483-8227-D6FCF8476C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{250B2A39-5EDC-4483-8227-D6FCF8476C0E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{39E9CA9C-DF50-4CF4-89C7-D093334A17FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{39E9CA9C-DF50-4CF4-89C7-D093334A17FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39E9CA9C-DF50-4CF4-89C7-D093334A17FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -55,6 +51,10 @@ Global
 		{BFD52411-7FB0-4498-8BED-FDAC31BD0694}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD52411-7FB0-4498-8BED-FDAC31BD0694}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD52411-7FB0-4498-8BED-FDAC31BD0694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
