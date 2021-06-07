@@ -8,7 +8,7 @@ namespace IMOWA
 {
     class MainLoop
     {
-        static void SOmetinh()
+        static void MainLoopy(string[] args)
         {
             Console.Title = "IMOWA 1.4";
 

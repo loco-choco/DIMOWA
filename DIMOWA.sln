@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugPacketIO", "DebugPacke
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DebuggingAndSockets", "DebuggingAndSockets", "{6A34FC63-3B73-4716-96DF-9ED0F61FBBBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOWA GUI", "IMOWA GUI\IMOWA GUI.csproj", "{2FCED596-4616-443E-AFFA-F279021BD7C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IMOWAGUI", "IMOWAGUI\IMOWAGUI.csproj", "{EAEE73D2-51C4-4269-8684-02DE7FA7D96C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,10 +51,10 @@ Global
 		{BFD52411-7FB0-4498-8BED-FDAC31BD0694}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFD52411-7FB0-4498-8BED-FDAC31BD0694}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFD52411-7FB0-4498-8BED-FDAC31BD0694}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FCED596-4616-443E-AFFA-F279021BD7C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAEE73D2-51C4-4269-8684-02DE7FA7D96C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAEE73D2-51C4-4269-8684-02DE7FA7D96C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAEE73D2-51C4-4269-8684-02DE7FA7D96C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAEE73D2-51C4-4269-8684-02DE7FA7D96C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
