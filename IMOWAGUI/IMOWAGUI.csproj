@@ -33,11 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="dnlib">
-      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnlib.dll</HintPath>
+    <Reference Include="dnlib, Version=1.6.0.0, Culture=neutral, PublicKeyToken=50e96378b6e77999, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Release\dnlib.dll</HintPath>
     </Reference>
-    <Reference Include="dnpatch">
-      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnpatch.dll</HintPath>
+    <Reference Include="dnpatch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Release\dnpatch.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,19 +55,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Console IMOWA\DIMOWAModLoaderInstaller.cs" />
-    <Compile Include="Console IMOWA\IMOWA.cs" />
-    <Compile Include="Console IMOWA\JsonReader.cs" />
-    <Compile Include="Console IMOWA\Main.cs" />
-    <Compile Include="Console IMOWA\ModDataGatherer.cs" />
-    <Compile Include="Console IMOWA\ModManager.cs" />
-    <Compile Include="Console IMOWA\MOWAP.cs" />
+    <Compile Include="IMOWA\DIMOWAModLoaderInstaller.cs" />
+    <Compile Include="IMOWA\IMOWA.cs" />
+    <Compile Include="IMOWA\JsonReader.cs" />
+    <Compile Include="IMOWA\ModDataGatherer.cs" />
+    <Compile Include="IMOWA\ModManager.cs" />
+    <Compile Include="IMOWA\MOWAP.cs" />
+    <Compile Include="IMOWA\JsonHandler.cs" />
+    <Compile Include="IMOWA\ModManifestHandler.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\ConsoleWindowHelper.cs" />
+    <Compile Include="GUI\ModEnableElement.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IMOWAGUI.Properties
+namespace IMOWA.Properties
 {
 
 

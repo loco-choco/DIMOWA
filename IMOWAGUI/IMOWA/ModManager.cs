@@ -36,6 +36,10 @@ namespace IMOWA
         {
             return modsInfo.Length;
         }
+        public string NameOfMod(int index)
+        {
+            return modsInfo[index].ModName;
+        }
 
         public bool IsTheModInstalled(int index)
         {

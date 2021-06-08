@@ -78,11 +78,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="dnlib">
-      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnlib.dll</HintPath>
+    <Reference Include="dnlib, Version=1.6.0.0, Culture=neutral, PublicKeyToken=50e96378b6e77999, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Release\dnlib.dll</HintPath>
     </Reference>
-    <Reference Include="dnpatch">
-      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Debug\dnpatch.dll</HintPath>
+    <Reference Include="dnpatch, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\BranchRepo\dnpatch\dnpatch\bin\Release\dnpatch.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
