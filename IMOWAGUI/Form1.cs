@@ -80,14 +80,17 @@ namespace IMOWA.GUI
                 {
                     ConsoleWindowHelper.Warning(string.Format("{0} wasn't in the folder, copying it there", modData.Dependencies[i]));
                     string filePath = "";
-                    foreach (string origin in originFolders)
+                    foreach (string origin in originFolders){
                         try
                         {
                             filePath = ModManager.GetFilePathInDirectory(modData.Dependencies[i], origin);
+							if(filePath != "")
+								break;
                         }
-                        catch { }
+						catch { }
+					}
                     if (filePath != "")
-                        File.Copy(modData.DllFilePath, folderToCopy + '/' + modData.Dependencies[i]);
+                        File.Copy(filePath, folderToCopy + '/' + modData.Dependencies[i]);
                     else
                         ConsoleWindowHelper.Exception(string.Format("Couldn't find the file {0}, a dependencie of {1}, in any folder, make sure that it is in there", modData.Dependencies[i], modData.ModName));
                 }
