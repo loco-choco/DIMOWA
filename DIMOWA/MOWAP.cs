@@ -15,15 +15,9 @@ namespace IMOWA
 
         public string ModInnitMethod { get; set; }
 
-        public string ModName { get; set; }
-
-        public string DllFilePath { get; set; }
-
         public int ModLoadingPlace { get; set; }
 
         public int ModPriority { get; set; }
-
-        public string[] Dependencies { get; set; }
     }
 
     public class MOWAPMaker

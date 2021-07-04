@@ -25,10 +25,8 @@ namespace CAMOWA.FBXRuntimeImporter
         //EX: 7400 (7.4)
         public int FileVersion;
         
-        public FBXFileParser(string relativePathFile)
+        public FBXFileParser(string filePath)
         {
-            string filePath = Application.dataPath + "/Assets/" + relativePathFile;
-
             if (!filePath.EndsWith(".fbx"))
                 throw new Exception("Incorrect File Type");
 

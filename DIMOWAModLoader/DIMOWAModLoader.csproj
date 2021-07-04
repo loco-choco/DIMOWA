@@ -44,6 +44,11 @@
     <Compile Include="ClientDebuggerSide.cs" />
     <Compile Include="Headers.cs" />
     <Compile Include="LevelLoaderHandler.cs" />
+    <Compile Include="Mod Loading\ModAssemblyLoader.cs" />
+    <Compile Include="Mod Loading\DirectorySearchTools.cs" />
+    <Compile Include="Mod Loading\ModPriorityOrganizer.cs" />
+    <Compile Include="Mod Loading\MOWAP.cs" />
+    <Compile Include="Mod Loading\SearchMods.cs" />
     <Compile Include="PacketIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
