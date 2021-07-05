@@ -12,12 +12,12 @@ namespace IMOWA
         private Target LoaderTarget;
         private Patcher patcher;
         private string gameFolder;
-        public string[] loaderDependecies { get; private set; }
+        //public string[] loaderDependecies { get; private set; }
 
         public DIMOWALoaderInstaller(string gameFolder, string directoryOfLoader)
         {
             this.gameFolder = gameFolder;
-            patcher = new Patcher(ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolder));
+            patcher = new Patcher(DirectorySearchTools.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolder));
             LoaderTarget = CreateLoaderTargetFromPath(directoryOfLoader);
             TargetIndex = IMOWA.IndexOfInstalledMod(LoaderTarget, patcher);
         }
@@ -44,13 +44,13 @@ namespace IMOWA
         }
         public void ResetLoaderInstaller()
         {
-            patcher = new Patcher(ModManager.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolder));
+            patcher = new Patcher(DirectorySearchTools.GetFilePathInDirectory("Assembly-CSharp.dll", gameFolder));
         }
 
         private Target CreateLoaderTargetFromPath(string folder)
         {
-            Assembly unityEngineAssembly = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("UnityEngine.dll", gameFolder));
-            Assembly levelLoader = Assembly.LoadFrom(ModManager.GetFilePathInDirectory("DIMOWAModLoader.dll", folder));// ("LevelLoaderHandler");
+            Assembly unityEngineAssembly = Assembly.LoadFrom(DirectorySearchTools.GetFilePathInDirectory("UnityEngine.dll", gameFolder));
+            Assembly levelLoader = Assembly.LoadFrom(DirectorySearchTools.GetFilePathInDirectory("DIMOWAModLoader.dll", folder));// ("LevelLoaderHandler");
 
             Instruction[] modLoaderInstructions = {
                 Instruction.Create(OpCodes.Ldstr   ,  "DIMOWA Level Loader Handler foi iniciado | was started"),
@@ -69,7 +69,7 @@ namespace IMOWA
                 InsertInstructions = true,
             };
 
-            loaderDependecies = ModDataGatherer.ParseReferences(levelLoader.GetReferencedAssemblies());
+            //loaderDependecies = DirectorySearchTools.ParseReferences(levelLoader.GetReferencedAssemblies());
 
             return ModLoaderInnitTarget;
         }

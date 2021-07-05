@@ -1,29 +1,46 @@
 ﻿using System.IO;
-using System.Runtime.Serialization.Json;
-using System.Xml;
-using System.Xml.Linq;
+using Newtonsoft.Json;
 
 namespace IMOWA
 {
     public class JsonReader
     {
-        private XmlDictionaryReader jsonFile;
-        public XElement RootElement { get; private set; }
-
-        public JsonReader(string filePath)
+        static public T ReadFromJson<T>(string filePath)
         {
-            jsonFile = JsonReaderWriterFactory.CreateJsonReader(File.ReadAllBytes(filePath), new XmlDictionaryReaderQuotas());
-            RootElement = XElement.Load(jsonFile);
+            return JsonConvert.DeserializeObject<T>(File.ReadAllText(filePath));
         }
 
-        public XElement GetJsonElementFromRoot(string elementName)
+        static public void WriteToJson (object objectToSerialize, string filePath)
         {
-            return RootElement.Element(XName.Get(elementName));
+            string fileData = JsonConvert.SerializeObject(objectToSerialize);
+            StreamWriter file = File.CreateText(filePath);
+            file.Write(fileData);
+            file.Flush();
+            file.Close();
         }
+    }
+    [JsonObject(MemberSerialization.OptIn)]
+    public struct ModManifestJson
+    {
+        [JsonProperty(PropertyName = "name")] public string Name { get; set; }
+        [JsonProperty(PropertyName =  "filename")] public string FileName { get; set; }
+        [JsonProperty(PropertyName = "uniqueName")] public string UniqueName { get; set; }
+        [JsonProperty(PropertyName = "version")] public string Version { get; set; }
+        [JsonProperty(PropertyName = "author")] public string Author { get; set; }
+        [JsonProperty(PropertyName = "description")] public string Description { get; set; }
+    }
 
-        public XElement GetJsonElement(XElement element, string childElementName)
-        {
-            return element.Element(XName.Get(childElementName));
-        }
+    [JsonObject(MemberSerialization.OptIn)]
+    public struct ModListJson
+    {
+        [JsonProperty(PropertyName = "modFolder")] public string ModFolder { get; set; }
+        [JsonProperty(PropertyName = "modList")] public string[] ModList { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    public struct ManagerConfig
+    {
+        [JsonProperty(PropertyName = "gameFolder")] public string GameFolder { get; set; }
+        [JsonProperty(PropertyName = "modsFolder")] public string ModsFolder { get; set; }
     }
 }

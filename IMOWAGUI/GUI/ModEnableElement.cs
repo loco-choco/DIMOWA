@@ -10,22 +10,33 @@ namespace IMOWA.GUI
 {
     public class ModEnableElement
     {
+        private const float DistanceOfElements = 1.1f;
+
         CheckBox checkBox;
         Label label;
+        Label moreDetails;
         Color unlockedColor;
-        public string ModName { get; private set; }
+        public readonly ModManifestJson json;
         public static List<ModEnableElement> ModEnableElements = new List<ModEnableElement>();
 
         public bool IsEnabled { get { return checkBox.Checked && true; } private set { } }
-        public ModEnableElement(Panel panel, string ModName, bool Status)
+        public ModEnableElement(Panel panel, ModManifestJson json, bool Status)
         {
-            this.ModName = ModName;
-
+            this.json = json;
+            
             label = new Label();
-            label.Text = ModName;
+            label.Text = string.Format("{0} [{1}]",json.Name,json.UniqueName);
             panel.Controls.Add(label);
             label.Width = (int)(panel.Width * 0.75f);
             label.BackColor = Color.Transparent;
+
+            moreDetails = new Label();
+            moreDetails.Text = string.Format("{0}  -  Version: {1}  By: {2}", json.Description, json.Version, json.Author);
+            moreDetails.Width = (int)(panel.Width * 0.9f);
+            moreDetails.BackColor = Color.Transparent;
+            moreDetails.Top = (int)(label.Height * DistanceOfElements);
+            moreDetails.ForeColor = Color.DarkSlateGray;
+            panel.Controls.Add(moreDetails);
 
             unlockedColor = Color.Black;
             label.ForeColor = unlockedColor;
@@ -53,11 +64,12 @@ namespace IMOWA.GUI
         {
             label.Top = y;
             checkBox.Top = y;
+            moreDetails.Top = (int)(label.Height * DistanceOfElements) + y;
         }
 
         public int GetRow()
         {
-            return label.Top;
+            return label.Top +(int)(label.Height * DistanceOfElements) + moreDetails.Height;
         }
     }
 }

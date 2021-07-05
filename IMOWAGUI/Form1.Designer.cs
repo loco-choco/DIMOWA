@@ -57,7 +57,7 @@
             this.SaveButton.TabIndex = 0;
             this.SaveButton.Text = "Save Modifications";
             this.SaveButton.UseVisualStyleBackColor = true;
-            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
+            this.SaveButton.Click += new System.EventHandler(this.SaveModsButton_Click);
             // 
             // tabControl1
             // 
@@ -147,7 +147,7 @@
             this.ModsFolderChange.AutoSize = true;
             this.ModsFolderChange.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ModsFolderChange.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ModsFolderChange.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.ModsFolderChange.Cursor = System.Windows.Forms.Cursors.Hand;
             this.ModsFolderChange.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.ModsFolderChange.Font = new System.Drawing.Font("Calibri Light", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ModsFolderChange.Location = new System.Drawing.Point(35, 79);
@@ -162,7 +162,7 @@
             this.GameFolderChange.AutoSize = true;
             this.GameFolderChange.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.GameFolderChange.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.GameFolderChange.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.GameFolderChange.Cursor = System.Windows.Forms.Cursors.Hand;
             this.GameFolderChange.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.GameFolderChange.Font = new System.Drawing.Font("Calibri Light", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GameFolderChange.Location = new System.Drawing.Point(35, 10);

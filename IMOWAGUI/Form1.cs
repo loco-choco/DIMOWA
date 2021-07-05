@@ -2,15 +2,17 @@
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
-using IMOWA;
+using System.Linq;
 using System.Drawing;
+using System.Collections.Generic;
 
 namespace IMOWA.GUI
 {
     public partial class Form1 : Form
     {
         public static string programPath { get; private set; }
-        private JsonHandler JsonHandler;
+        private List<string> allEnabledMods;
+        private ManagerConfig Config;
         private ModDataHandler ModDataHandler;
         public Form1()
         {
@@ -23,21 +25,33 @@ namespace IMOWA.GUI
                 MainMenu();
                 SettingsMenu();
 
-                JsonHandler = new JsonHandler();
-                if (!JsonHandler.ConfigFound)
+                string[] possibleConfig = Directory.GetFiles(Form1.programPath, "*config.json");
+                if (possibleConfig.Length <= 0)
                 {
                     tabControl1.SelectedTab = tabPage2;
                 }
                 else
                 {
-                    ModsFolderTextBox.Text = JsonHandler.CaminhoDaPastaDeMods;
-                    GameFolderTextBox.Text = JsonHandler.CaminhoDoJogo;
-
-                    ModDataHandler = new ModDataHandler(JsonHandler.CaminhoDoJogo, JsonHandler.CaminhoDaPastaDeMods, JsonHandler.CaminhoDaPastaDeManifestos);
-                    new ModEnableElement(panel1, "DIMOWAModLoader", ModDataHandler.DIMOWALoaderInstaller.IsLoaderInstalled);
-                    for (int i = 0; i < ModDataHandler.ModManager.AmountOfMods(); i++)
+                    try
                     {
-                        var e = new ModEnableElement(panel1, ModDataHandler.ModManager.NameOfMod(i), ModDataHandler.ModManager.IsTheModInstalled(i));
+                        Config = JsonReader.ReadFromJson<ManagerConfig>(possibleConfig[0]);
+                    }
+                    catch(Exception ex)
+                    {
+                        ConsoleWindowHelper.Exception(ex.Message + " - " + ex.StackTrace);
+                        throw new IOException("Something went wrong while reading the config.json file, try deleting it and running the program again");
+                    }
+
+                    ModsFolderTextBox.Text = Config.ModsFolder;
+                    GameFolderTextBox.Text = Config.GameFolder;
+
+                    ModDataHandler = new ModDataHandler(Config.GameFolder, Config.ModsFolder, Config.ModsFolder);
+                    new ModEnableElement(panel1, ModDataHandler.ManifestDoLoader, ModDataHandler.DIMOWALoaderInstaller.IsLoaderInstalled);
+
+                    allEnabledMods = ModDataHandler.ModEnabledList.ModList.ToList();
+                    for (int i = 0; i < ModDataHandler.ManifestsDosMods.Length; i++)
+                    {
+                        var e = new ModEnableElement(panel1, ModDataHandler.ManifestsDosMods[i], allEnabledMods.IndexOf(ModDataHandler.ManifestsDosMods[i].FileName) > -1);
                         if (i == 0)
                             e.ChangeRow(75);
                         else
@@ -63,90 +77,40 @@ namespace IMOWA.GUI
             tabPage2.Text = "Settings";
             ModsFolderTextBox.ReadOnly = true;
             GameFolderTextBox.ReadOnly = true;
-
         }
 
-        public static void CopyFileAndReferencesToFolder(MOWAP modData, string folderToCopy, params string[] originFolders)
-        {
-            string fileName = Path.GetFileName(modData.DllFilePath);
-            if (Directory.GetFiles(folderToCopy, fileName).Length == 0)
-            {
-                ConsoleWindowHelper.Warning(Path.GetFileName(modData.DllFilePath) + " wasn't in " + folderToCopy + ", copying it there");
-                File.Copy(modData.DllFilePath, folderToCopy + '/' + fileName);
-            }
-            for (int i = 0; i < modData.Dependencies.Length; i++)
-            {
-                if (Directory.GetFiles(folderToCopy, modData.Dependencies[i]).Length == 0)
-                {
-                    ConsoleWindowHelper.Warning(string.Format("{0} wasn't in the folder, copying it there", modData.Dependencies[i]));
-                    string filePath = "";
-                    foreach (string origin in originFolders){
-                        try
-                        {
-                            filePath = ModManager.GetFilePathInDirectory(modData.Dependencies[i], origin);
-							if(filePath != "")
-								break;
-                        }
-						catch { }
-					}
-                    if (filePath != "")
-                        File.Copy(filePath, folderToCopy + '/' + modData.Dependencies[i]);
-                    else
-                        ConsoleWindowHelper.Exception(string.Format("Couldn't find the file {0}, a dependencie of {1}, in any folder, make sure that it is in there", modData.Dependencies[i], modData.ModName));
-                }
-            }
-        }
-
-
-        private void SaveButton_Click(object sender, EventArgs e)
+        private void SaveModsButton_Click(object sender, EventArgs e)
         {
             try
             {
-                string managedDirectoryPath = Directory.GetDirectories(JsonHandler.CaminhoDoJogo, "*Managed", SearchOption.AllDirectories)[0];
-
-                if (ModDataHandler.DIMOWALoaderInstaller.IsLoaderInstalled)
+                for( int i = 0; i < ModEnableElement.ModEnableElements.Count; i++)
                 {
-                    for (int i = 1; i < ModEnableElement.ModEnableElements.Count; i++)
+                    if (ModEnableElement.ModEnableElements[i].json.FileName != ModDataHandler.dimowaModLoaderFile)
                     {
-                        string modName = ModEnableElement.ModEnableElements[i].ModName;
-                        int modIndexInManager = ModDataHandler.ModManager.ModIndexInArray(modName);
-                        if (ModEnableElement.ModEnableElements[i].IsEnabled)//Instalar == true
-                        {
-                            if (ModDataHandler.ModManager.InstallMod(modIndexInManager))
-                            {
-                                ConsoleWindowHelper.Log(ModDataHandler.ModManager.NameOfMod(modIndexInManager) + " has been successfully installed");
-                                CopyFileAndReferencesToFolder(ModDataHandler.GetModMOWAP(modIndexInManager), managedDirectoryPath, JsonHandler.CaminhoDaPastaDeMods, JsonHandler.CaminhoDoJogo);
-                            }
-                        }
-                        else
-                        {
-                            if (ModDataHandler.ModManager.UninstallMod(modIndexInManager))
-                            {
-                                string modFileName = ModDataHandler.GetModDllFileName(modIndexInManager);
-                                ConsoleWindowHelper.Log(modName + " has been successfully uninstalled");
-                                if (Directory.GetFiles(managedDirectoryPath, modFileName).Length > 0)
-                                {
-                                    ConsoleWindowHelper.Warning(string.Format("{0} is still in the folder, removing it from there", modFileName));
-                                    File.Delete(managedDirectoryPath + '/' + modFileName);
-                                }
-                            }
-                        }
+                        if (ModEnableElement.ModEnableElements[i].IsEnabled && allEnabledMods.IndexOf(ModEnableElement.ModEnableElements[i].json.FileName) < 0)
+                            allEnabledMods.Add(ModEnableElement.ModEnableElements[i].json.FileName);
+                        else if (!ModEnableElement.ModEnableElements[i].IsEnabled && allEnabledMods.IndexOf(ModEnableElement.ModEnableElements[i].json.FileName) > -1)
+                            allEnabledMods.Remove(ModEnableElement.ModEnableElements[i].json.FileName);
                     }
-                    ModDataHandler.ModManager.SaveModifications();
-                    ModDataHandler.ModManager.RefreshAfterSave();
                 }
-
+                
+                ModListJson modList = new ModListJson()
+                {
+                    ModList = allEnabledMods.ToArray(),
+                    ModFolder = Config.ModsFolder
+                };
+                JsonReader.WriteToJson(modList, Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.loaderModJsonFile));
                 if (ModEnableElement.ModEnableElements[0].IsEnabled) //Primeiro elemento é sempre do loader
                 {//DIMOWALoaderInstaller.Install()/.Unistall() consomem bastante ram e cpu quanto chamados com o .Save() e continuam consumindo ele em seguida, parece ser algo relacionado com o tamanho do DLL (como se ele estivesse carregando todo ele para salvar mas não deletando esse objeto)
                     ;
                     if (ModDataHandler.DIMOWALoaderInstaller.Install())
                     {
-                        ConsoleWindowHelper.Log("DIMOWAModLoader has been successfully installed");
-                        CopyFileAndReferencesToFolder(new MOWAP { Dependencies = ModDataHandler.DIMOWALoaderInstaller.loaderDependecies, DllFilePath = ModDataHandler.GetLoaderDllFilePath() }, managedDirectoryPath, JsonHandler.CaminhoDaPastaDeMods, JsonHandler.CaminhoDoJogo);
+                        File.Copy(DirectorySearchTools.GetFilePathInDirectory(ModDataHandler.ManifestDoLoader.FileName, Config.ModsFolder, Config.GameFolder), Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.ManifestDoLoader.FileName));
 
                         ModDataHandler.DIMOWALoaderInstaller.SaveModifications();
                         ModDataHandler.DIMOWALoaderInstaller.ResetLoaderInstaller();
 
+                        ConsoleWindowHelper.Log("DIMOWAModLoader has been successfully installed");
                         foreach (var element in ModEnableElement.ModEnableElements)
                             element.UnlockElement();
                     }
@@ -155,9 +119,14 @@ namespace IMOWA.GUI
                 {
                     if (ModDataHandler.DIMOWALoaderInstaller.Uninstall())
                     {
+                        
                         ModDataHandler.DIMOWALoaderInstaller.SaveModifications();
                         ModDataHandler.DIMOWALoaderInstaller.ResetLoaderInstaller();
 
+                        File.Delete(Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.ManifestDoLoader.FileName));
+                        File.Delete(Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.loaderModJsonFile));
+
+                        ConsoleWindowHelper.Log("DIMOWAModLoader has been successfully uninstalled");
                         for (int i = 1; i < ModEnableElement.ModEnableElements.Count; i++)
                             ModEnableElement.ModEnableElements[i].LockElement(Color.Gray);
                     }
@@ -196,23 +165,27 @@ namespace IMOWA.GUI
         {
             try
             {
-
                 if (ModsFolderTextBox.Text != "" && GameFolderTextBox.Text != "")
                 {
-                    JsonHandler.CreteOrChangeConfigFile(GameFolderTextBox.Text, ModsFolderTextBox.Text);
+                    Config = new ManagerConfig { GameFolder = GameFolderTextBox.Text, ModsFolder = ModsFolderTextBox.Text };
+                    JsonReader.WriteToJson(Config, Path.Combine(programPath, "config.json"));
                     //Reiniciar IMOWA e o Loader Installer
                     if (ModDataHandler == null)
                     {
-                        ModDataHandler = new ModDataHandler(JsonHandler.CaminhoDoJogo, JsonHandler.CaminhoDaPastaDeMods, JsonHandler.CaminhoDaPastaDeManifestos);
+                        ModDataHandler = new ModDataHandler(Config.GameFolder, Config.ModsFolder, Config.ModsFolder);
 
-                        new ModEnableElement(panel1, "DIMOWAModLoader", ModDataHandler.DIMOWALoaderInstaller.IsLoaderInstalled);
-                        for (int i = 0; i < ModDataHandler.ModManager.AmountOfMods(); i++)
+                        new ModEnableElement(panel1, ModDataHandler.ManifestDoLoader, ModDataHandler.DIMOWALoaderInstaller.IsLoaderInstalled);
+                        allEnabledMods = ModDataHandler.ModEnabledList.ModList.ToList();
+                        for (int i = 0; i < ModDataHandler.ManifestsDosMods.Length; i++)
                         {
-                            var element = new ModEnableElement(panel1, ModDataHandler.ModManager.NameOfMod(i), ModDataHandler.ModManager.IsTheModInstalled(i));
-                            element.ChangeRow(ModEnableElement.ModEnableElements[i].GetRow() + 25);
+                            var ele = new ModEnableElement(panel1, ModDataHandler.ManifestsDosMods[i], allEnabledMods.IndexOf(ModDataHandler.ManifestsDosMods[i].FileName) > -1);
+                            if (i == 0)
+                                ele.ChangeRow(75);
+                            else
+                                ele.ChangeRow(ModEnableElement.ModEnableElements[i].GetRow() + 25);
 
                             if (!ModDataHandler.DIMOWALoaderInstaller.IsLoaderInstalled)
-                                element.LockElement(Color.Gray);
+                                ele.LockElement(Color.Gray);
                         }
                     }
                 }
