@@ -18,9 +18,9 @@ Now press the Mods Folder button, it will open the same window. Choose the folde
 <img src="https://github.com/ShoosGun/DIMOWA/blob/tabz/Icon%20and%20other%20images/IMOWAGUI_Tutorial/10.png" >
 Your screen should look like this.
 <img src="https://github.com/ShoosGun/DIMOWA/blob/tabz/Icon%20and%20other%20images/IMOWAGUI_Tutorial/11.png" >
-Now press Save Settings, the following file and the two messages should appear
+Now press Save Settings, the following file and the two messages should appear.
 <img src="https://github.com/ShoosGun/DIMOWA/blob/tabz/Icon%20and%20other%20images/IMOWAGUI_Tutorial/12.png" >
-Go to the IMOWA window, there you should see a single mod, the loader
+Go to the IMOWA window, there you should see a single mod, the loader.
 <img src="https://github.com/ShoosGun/DIMOWA/blob/tabz/Icon%20and%20other%20images/IMOWAGUI_Tutorial/13.png" >
 Check the check box and press the Save Modifications button, the new two green messages should appear too.
 
