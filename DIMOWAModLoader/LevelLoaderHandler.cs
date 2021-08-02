@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using DIMOWAModLoader.Mod_Loading;
+using System;
+using System.IO;
+using System.Reflection;
 
 namespace DIMOWAModLoader
 {
@@ -7,8 +11,13 @@ namespace DIMOWAModLoader
         static private bool levelLoaderCreated = false;
         private int levelIndex = -1;
         bool loadMods = false;
-        public int LoopCount { get; private set; }
-        
+
+        private const string ModListJsonName = "ModList.json";
+
+        private ModPriorityOrganizer MainMenuMods;
+        private ModPriorityOrganizer GameSceneMods;
+        private ModPriorityOrganizer AllScenesMods;
+
         public static void LevelLoaderInnit(string porOndeTaInicializando)
         {
             if (!levelLoaderCreated)
@@ -16,97 +25,82 @@ namespace DIMOWAModLoader
                 Debug.Log($"Esta iniciando por {porOndeTaInicializando}");
                 new GameObject("DIMOWALevelLoaderHandler").AddComponent<LevelLoaderHandler>();
                 Debug.Log("O GameObject do Handler foi criado");
-
                 levelLoaderCreated = !levelLoaderCreated;
             }
         }
-
+        
         void Awake()
         {
             Debug.Log("No awake de mod loader");
             gameObject.AddComponent<ClientDebuggerSide>();
-            GlobalMessenger<int>.AddListener("StartOfTimeLoop", new Callback<int>(this.OnStartOfTimeLoop));
             DontDestroyOnLoad(gameObject);
-        }
 
-        void OnStartOfTimeLoop(int numberOfLoops)
+            try
+            {
+                MainMenuMods = new ModPriorityOrganizer();
+                GameSceneMods = new ModPriorityOrganizer();
+                AllScenesMods = new ModPriorityOrganizer();
+
+                string dllExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                string jsonFilePath = "";
+                try
+                {
+                    jsonFilePath = DirectorySearchTools.GetFilePathInDirectory(ModListJsonName, dllExecutingPath);
+                }
+                catch
+                {
+                    ModList mList = new ModList();
+                    mList.ToJsonFile(Path.Combine(dllExecutingPath, ModListJsonName));
+                }
+
+                ModList list = ModList.FromJson(jsonFilePath);
+                MOWAP[] mods = SearchMods.GetModsMOWAPS(dllExecutingPath, list);
+
+                SeparateModsMethod(mods);
+            }
+            catch (Exception ex)
+            { Debug.Log(string.Format("Something went wrong while loading the mods: {0}  - {1} - {2}", ex.Message, ex.Source, ex.StackTrace));}
+        }
+        private void SeparateModsMethod(MOWAP[] mods)
         {
-            loadMods = true;
-            LoopCount = numberOfLoops;
+            Debug.Log("Separating The Mods " + mods.Length);
+            for (int i = 0; i < mods.Length; i++)
+            {
+                Debug.Log("Nome: " + mods[i].ModInnitMethod.Name);
+                switch (mods[i].ModLoadingPlace)
+                {
+                    case 0:
+                        MainMenuMods.AddMethodInfoFromPriority(mods[i]);
+                        break;
+
+                    case 1:
+                        GameSceneMods.AddMethodInfoFromPriority(mods[i]);
+                        break;
+
+                    default:
+                        AllScenesMods.AddMethodInfoFromPriority(mods[i]);
+                        break;
+                }
+            }
         }
 
-        //Ideia, no lugar de fazer patch no Assembly do jogo e ter chance de dar ruim, fazer com que isso ocorra nessa classe, como separação de
-        //prioridade e em qual level o start vai ocorrer
-        //Se a pessoa quer que o script dela ocorra antes de algum Awake ou sla, ela faz usando Harmony e tals
-
-        //Acho não ser a melhor maneira, mas é mais facil e facilita muitas coisas
-        void MainMenuStartHigh()
-        {
-            Debug.Log("High Priority Mods");//0
-        }
-
-        void MainMenuStartRegular()
-        {
-            Debug.Log("Regular Priority Mods");//1
-        }
-
-        void MainMenuStartLow()
-        {
-            Debug.Log("Low Priority Mods");//2
-        }
-
+        //0 - Main Menu (1st scene) , 1 - Game (2nd scene), -1 All (any scene)
         void MainMenuStart()//0
         {
             Debug.Log("MainMenuStart");
-            MainMenuStartHigh();
-            MainMenuStartRegular();
-            MainMenuStartLow();
-        }
 
-        void SolarSystemStartHigh()
+            MainMenuMods.RunAllMethodsInOrder();
+        }        
+        void GameStart()//1
         {
-            Debug.Log("High Priority Mods");//0
-        }
+            Debug.Log("GameStartStart");
+            GameSceneMods.RunAllMethodsInOrder();
 
-        void SolarSystemStartRegular()
-        {
-            Debug.Log("Regular Priority Mods");//1
         }
-
-        void SolarSystemStartLow()
-        {
-            Debug.Log("Low Priority Mods");//2
-        }
-
-        void SolarSystemStart()//1
-        {
-            Debug.Log("SolarSystemStart");
-            SolarSystemStartHigh();
-            SolarSystemStartRegular();
-            SolarSystemStartLow();
-        }
-
-        void AllLevelStartHigh()
-        {
-            Debug.Log("High Priority Mods");
-        }
-
-        void AllLevelStartRegular()
-        {
-            Debug.Log("Regular Priority Mods");
-        }
-
-        void AllLevelStartLow()
-        {
-            Debug.Log("Low Priority Mods");
-        }
-
         void AllLevelStart()//-1 , tem prioridade sobre os outros
         {
             Debug.Log("AllLevelStart");
-            AllLevelStartHigh();
-            AllLevelStartRegular();
-            AllLevelStartLow();
+            AllScenesMods.RunAllMethodsInOrder();
         }
 
         void Update()
@@ -118,7 +112,7 @@ namespace DIMOWAModLoader
                 if (levelIndex == 0)
                     MainMenuStart();
                 else if (levelIndex == 1)
-                    SolarSystemStart();
+                    GameStart();
                 loadMods = false;
             }
         }

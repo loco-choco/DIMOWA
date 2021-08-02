@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DIMOWAModLoader</RootNamespace>
     <AssemblyName>DIMOWAModLoader</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,21 +32,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp - Copia">
-      <HintPath>..\..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\Assembly-CSharp - Copia.dll</HintPath>
-    </Reference>
+
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
+
+      <HintPath>..\..\..\..\..\TABZ modded v5\GAME_Data\Managed\UnityEngine.dll</HintPath>
+
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClientDebuggerSide.cs" />
     <Compile Include="Headers.cs" />
     <Compile Include="LevelLoaderHandler.cs" />
+    <Compile Include="Mod Loading\ModAssemblyLoader.cs" />
+    <Compile Include="Mod Loading\DirectorySearchTools.cs" />
+    <Compile Include="Mod Loading\ModPriorityOrganizer.cs" />
+    <Compile Include="Mod Loading\MOWAP.cs" />
+    <Compile Include="Mod Loading\SearchMods.cs" />
     <Compile Include="PacketIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -28,10 +28,8 @@ namespace CAMOWA
         }
 
         // Use this for initialization
-        public Mesh ImportFile(string relativePathFile)
+        public Mesh ImportFile(string filePath)
         {
-            string filePath = Application.dataPath + "/Assets/" + relativePathFile;
-
             MeshStruct newMesh = createMeshStruct(filePath);
             populateMeshStruct(ref newMesh);
 

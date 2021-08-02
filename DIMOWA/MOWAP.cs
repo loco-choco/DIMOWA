@@ -15,10 +15,6 @@ namespace IMOWA
 
         public string ModInnitMethod { get; set; }
 
-        public string ModName { get; set; }
-
-        public string DllFilePath { get; set; }
-
         public int ModLoadingPlace { get; set; }
 
         public int ModPriority { get; set; }
@@ -55,11 +51,11 @@ namespace IMOWA
             Method = "MainMenuStart",
         };
 
-        private static readonly Target solarSystemStart = new Target()
+        private static readonly Target gameStart = new Target()
         {
             Namespace = "DIMOWAModLoader",
             Class = "LevelLoaderHandler",
-            Method = "SolarSystemStart",
+            Method = "GameStart",
         };
 
         private static readonly Target allLevelStart = new Target()
@@ -112,7 +108,7 @@ namespace IMOWA
                     break;
 
                 case 1:
-                    targetMod.Method = "SolarSystemStart" + modPriorityMethod;
+                    targetMod.Method = "GameStart" + modPriorityMethod;
                     break;
 
                 default:

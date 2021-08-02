@@ -119,7 +119,9 @@ namespace IMOWA
         public void RefreshAfterSave()
         {
             patcher = new Patcher(dimowaPath);
+
         }
+
 
 
         public static string GetFilePathInDirectory(string fileName, string folder)
@@ -130,6 +132,7 @@ namespace IMOWA
             else
                 throw new FileNotFoundException($"{fileName} was not found inside {folder} or inside its child's directories");
         }
+
         public static string GetDirectoryInDirectory(string directoryName, string folder)
         {
             var possibleDirectories = Directory.GetDirectories(folder, directoryName, SearchOption.AllDirectories);
