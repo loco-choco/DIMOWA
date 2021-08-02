@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DIMOWAModLoader</RootNamespace>
     <AssemblyName>DIMOWAModLoader</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net20\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -45,12 +48,15 @@
     <Compile Include="Headers.cs" />
     <Compile Include="LevelLoaderHandler.cs" />
     <Compile Include="Mod Loading\ModAssemblyLoader.cs" />
-    <Compile Include="Mod Loading\DirectorySearchTools.cs" />
+    <Compile Include="Mod Loading\ToolsAndExtensions.cs" />
     <Compile Include="Mod Loading\ModPriorityOrganizer.cs" />
     <Compile Include="Mod Loading\MOWAP.cs" />
     <Compile Include="Mod Loading\SearchMods.cs" />
     <Compile Include="PacketIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
 using UnityEngine;
 
@@ -77,7 +74,7 @@ namespace DIMOWAModLoader.Mod_Loading
         {
             if (args.Name.Contains(".resources"))
                 return null;
-            Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
+            Assembly assembly = LINQExtensions.FirstOrDefault(AppDomain.CurrentDomain.GetAssemblies(), a => a.FullName == args.Name);
             if (assembly != null)
                 return assembly;
             string filename = (args.Name.Split(',')[0] + ".dll").ToLower(), filePath = "";

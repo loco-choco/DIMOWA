@@ -101,12 +101,17 @@ namespace IMOWA.GUI
                 };
                 JsonReader.WriteToJson(modList, Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.loaderModJsonFile));
                 if (ModEnableElement.ModEnableElements[0].IsEnabled) //Primeiro elemento é sempre do loader
-                {//DIMOWALoaderInstaller.Install()/.Unistall() consomem bastante ram e cpu quanto chamados com o .Save() e continuam consumindo ele em seguida, parece ser algo relacionado com o tamanho do DLL (como se ele estivesse carregando todo ele para salvar mas não deletando esse objeto)
+                {//DIMOWALoaderInstaller.Install()/.Unistall() consomem bastante ram e cpu quanto chamados com o .Save() e continuam consumindo ele em seguida, parece ser algo relacionado com o tamanho do DLL (como se ele estivesse carregando todo ele para salvar mas não largando esse objeto)
                     ;
                     if (ModDataHandler.DIMOWALoaderInstaller.Install())
                     {
-                        File.Copy(DirectorySearchTools.GetFilePathInDirectory(ModDataHandler.ManifestDoLoader.FileName, Config.ModsFolder, Config.GameFolder), Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.ManifestDoLoader.FileName));
-
+                        string[] filesToCopy = { ModDataHandler.ManifestDoLoader.FileName, "Newtonsoft.Json.dll" };
+                        foreach( string s in filesToCopy)
+                        {
+                            string fullPath = Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), s);
+                            if (!File.Exists(fullPath))
+                                File.Copy(DirectorySearchTools.GetFilePathInDirectory(ModDataHandler.ManifestDoLoader.FileName, Config.ModsFolder, Config.GameFolder), fullPath);
+                        }
                         ModDataHandler.DIMOWALoaderInstaller.SaveModifications();
                         ModDataHandler.DIMOWALoaderInstaller.ResetLoaderInstaller();
 
@@ -123,8 +128,13 @@ namespace IMOWA.GUI
                         ModDataHandler.DIMOWALoaderInstaller.SaveModifications();
                         ModDataHandler.DIMOWALoaderInstaller.ResetLoaderInstaller();
 
-                        File.Delete(Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.ManifestDoLoader.FileName));
-                        File.Delete(Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.loaderModJsonFile));
+                        string[] filesToDelete = { ModDataHandler.ManifestDoLoader.FileName, ModDataHandler.loaderModJsonFile, "Newtonsoft.Json.dll" };
+                        foreach (string s in filesToDelete)
+                        {
+                            string fullPath = Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), s);
+                            if (File.Exists(fullPath))
+                                File.Delete(fullPath);
+                        }
 
                         ConsoleWindowHelper.Log("DIMOWAModLoader has been successfully uninstalled");
                         for (int i = 1; i < ModEnableElement.ModEnableElements.Count; i++)
