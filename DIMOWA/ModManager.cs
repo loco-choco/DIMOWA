@@ -15,8 +15,8 @@ namespace IMOWA
         private string dimowaPath;
         private Target[] modTargets;
         private MOWAP[] modsInfo;
-        
-        public ModManager(string gameFolder ,List<MOWAP> modList, Assembly UnityEngine = null)
+
+        public ModManager(string gameFolder, List<MOWAP> modList, Assembly UnityEngine = null)
         {
             dimowaPath = GetFilePathInDirectory("DIMOWAModLoader.dll", gameFolder);
             patcher = new Patcher(dimowaPath);
@@ -72,7 +72,7 @@ namespace IMOWA
         {
             if (IMOWA.IndexOfInstalledMod(modTargets[index], patcher) > -1)
                 return false;
-            return IMOWA.InstallMod(modTargets[index], patcher); 
+            return IMOWA.InstallMod(modTargets[index], patcher);
         }
 
         /// <summary>
@@ -119,7 +119,11 @@ namespace IMOWA
         public void RefreshAfterSave()
         {
             patcher = new Patcher(dimowaPath);
-        }        
+
+        }
+
+
+
         public static string GetFilePathInDirectory(string fileName, string folder)
         {
             var possibleFiles = Directory.GetFiles(folder, fileName, SearchOption.AllDirectories);
@@ -138,4 +142,6 @@ namespace IMOWA
                 throw new DirectoryNotFoundException($"{directoryName} was not found inside {folder} or inside its child's directories");
         }
     }
+
+    
 }

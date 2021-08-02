@@ -16,7 +16,9 @@ namespace IMOWA
             AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
         }
 
-        public MOWAP GenerateModMOWAPFromDll(string file, Type imowaModInnitType)
+
+        public MOWAP GenerateModMOWAPFromDll(string file,  Type imowaModInnitType)
+
         {
             MOWAP mowap = new MOWAP();
             string path = ModManager.GetFilePathInDirectory(file, modFolder);
@@ -81,27 +83,35 @@ namespace IMOWA
 
         //https://weblog.west-wind.com/posts/2016/Dec/12/Loading-NET-Assemblies-out-of-Seperate-Folders
         private Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+
         {
+
             if (args.Name.Contains(".resources"))
                 return null;
             Assembly assembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(a => a.FullName == args.Name);
             if (assembly != null)
                 return assembly;
-            string filename = (args.Name.Split(',')[0] + ".dll").ToLower(), filePath = "";
 
-            string[] possiblePathsForTheAssembly = { modFolder, gameFolder };
-            foreach (string s in possiblePathsForTheAssembly)
+            string filename = (args.Name.Split(',')[0] + ".dll").ToLower() , filePath = "";
+
+            string[] possiblePathsForTheAssembly = { modFolder, gameFolder };            
+            foreach(string s in possiblePathsForTheAssembly)
+
             {
                 try
                 {
                     filePath = ModManager.GetFilePathInDirectory(filename, s);
-                    break;
+
+                        break;
+
                 }
                 catch { }
             }
             try
             {
-                if (filePath != "")
+
+                if(filePath != "")
+
                     return Assembly.LoadFrom(filePath);
 
                 Console.WriteLine("Couldn't find the reference: " + filename);
@@ -116,3 +126,4 @@ namespace IMOWA
         }
     }
 }
+
