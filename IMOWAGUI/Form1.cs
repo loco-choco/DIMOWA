@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using System.Linq;
 using System.Drawing;
 using System.Collections.Generic;
+using IMOWAGUI.IMOWA;
 
 namespace IMOWA.GUI
 {
@@ -94,18 +95,18 @@ namespace IMOWA.GUI
                     }
                 }
                 
-                ModListJson modList = new ModListJson()
+                ModFolderAndList modList = new ModFolderAndList()
                 {
                     ModList = allEnabledMods.ToArray(),
                     ModFolder = Config.ModsFolder
                 };
-                JsonReader.WriteToJson(modList, Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.loaderModJsonFile));
+                ClassSerializer.WriteToFile(Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), ModDataHandler.loaderModOWFile), modList);
                 if (ModEnableElement.ModEnableElements[0].IsEnabled) //Primeiro elemento é sempre do loader
                 {//DIMOWALoaderInstaller.Install()/.Unistall() consomem bastante ram e cpu quanto chamados com o .Save() e continuam consumindo ele em seguida, parece ser algo relacionado com o tamanho do DLL (como se ele estivesse carregando todo ele para salvar mas não largando esse objeto)
                     ;
                     if (ModDataHandler.DIMOWALoaderInstaller.Install())
                     {
-                        string[] filesToCopy = { ModDataHandler.ManifestDoLoader.FileName, "Newtonsoft.Json.dll" };
+                        string[] filesToCopy = { ModDataHandler.ManifestDoLoader.FileName };
                         foreach( string s in filesToCopy)
                         {
                             string fullPath = Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), s);
@@ -128,7 +129,7 @@ namespace IMOWA.GUI
                         ModDataHandler.DIMOWALoaderInstaller.SaveModifications();
                         ModDataHandler.DIMOWALoaderInstaller.ResetLoaderInstaller();
 
-                        string[] filesToDelete = { ModDataHandler.ManifestDoLoader.FileName, ModDataHandler.loaderModJsonFile, "Newtonsoft.Json.dll" };
+                        string[] filesToDelete = { ModDataHandler.ManifestDoLoader.FileName, ModDataHandler.loaderModOWFile };
                         foreach (string s in filesToDelete)
                         {
                             string fullPath = Path.Combine(DirectorySearchTools.GetDirectoryInDirectory("Managed", Config.GameFolder), s);

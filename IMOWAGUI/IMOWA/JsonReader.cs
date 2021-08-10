@@ -31,13 +31,6 @@ namespace IMOWA
     }
 
     [JsonObject(MemberSerialization.OptIn)]
-    public struct ModListJson
-    {
-        [JsonProperty(PropertyName = "modFolder")] public string ModFolder { get; set; }
-        [JsonProperty(PropertyName = "modList")] public string[] ModList { get; set; }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
     public struct ManagerConfig
     {
         [JsonProperty(PropertyName = "gameFolder")] public string GameFolder { get; set; }

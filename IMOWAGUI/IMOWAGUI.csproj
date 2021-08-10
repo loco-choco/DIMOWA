@@ -65,6 +65,7 @@
     <Compile Include="IMOWA\DirectorySearchTools.cs" />
     <Compile Include="IMOWA\IMOWA.cs" />
     <Compile Include="IMOWA\JsonReader.cs" />
+    <Compile Include="IMOWA\ModFolderAndList.cs" />
     <Compile Include="IMOWA\ModManifestHandler.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

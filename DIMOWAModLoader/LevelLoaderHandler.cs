@@ -12,7 +12,7 @@ namespace DIMOWAModLoader
         private int levelIndex = -1;
         bool loadMods = false;
 
-        private const string ModListJsonName = "ModList.json";
+        private const string ModListOWFileName = "ModList.ow";
 
         private ModPriorityOrganizer MainMenuMods;
         private ModPriorityOrganizer GameSceneMods;
@@ -42,20 +42,12 @@ namespace DIMOWAModLoader
                 AllScenesMods = new ModPriorityOrganizer();
 
                 string dllExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                string jsonFilePath = "";
-                try
-                {
-                    jsonFilePath = DirectorySearchTools.GetFilePathInDirectory(ModListJsonName, dllExecutingPath);
-                }
-                catch
-                {
-                    ModList mList = new ModList();
-                    mList.ToJsonFile(Path.Combine(dllExecutingPath, ModListJsonName));
-                }
+                string modListFilePath = DirectorySearchTools.GetFilePathInDirectory(ModListOWFileName, dllExecutingPath);
 
-                ModList list = ModList.FromJson(jsonFilePath);
+                ModFolderAndList list = new ModFolderAndList();
+               ClassSerializer.ReadFromFile(modListFilePath,list);
+
                 MOWAP[] mods = SearchMods.GetModsMOWAPS(dllExecutingPath, list);
-
                 SeparateModsMethod(mods);
             }
             catch (Exception ex)

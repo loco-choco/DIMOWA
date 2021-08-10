@@ -30,9 +30,6 @@ namespace DIMOWAModLoader
         public PacketReader(byte[] data)
             : base(new MemoryStream(data))
         {
-
         }
-
-
     }
 }
