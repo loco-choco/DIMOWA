@@ -41,7 +41,8 @@ namespace IMOWA
                     caminhoDaPastaDeMods = json.GetJsonElementFromRoot("modsFolder").Value;
                     caminhoDaPastaDeManifestos = caminhoDaPastaDeMods;
                 }
-                catch (Exception ex)
+
+                catch(Exception ex)
                 {
                     Console.WriteLine("Something went wrong while reading the config.json file, try deleting it and running the program again");
                     Console.WriteLine("Exception Message: " + ex.Message + "  " + ex.StackTrace + "  " + ex.Source);
@@ -60,7 +61,8 @@ namespace IMOWA
                 dllsDosMods[i] = json.GetJsonElementFromRoot("filename").Value;
                 if (dllsDosMods[i] == "DIMOWAModLoader.dll")
                 {
-                    if (indexOfTheLoader < 0)
+
+                    if(indexOfTheLoader<0)
                         indexOfTheLoader = i;
                 }
             }
@@ -80,6 +82,7 @@ namespace IMOWA
             ModDataGatherer gatherer = new ModDataGatherer(caminhoDaPastaDeMods, caminhoDoJogo);
 
             foreach (string fileName in new HashSet<string>(dllsDosMods))
+
                 if (fileName != dllsDosMods[indexOfTheLoader])
                     listOfMods.Add(gatherer.GenerateModMOWAPFromDll(fileName, imowaModInnitType));
 
@@ -98,6 +101,7 @@ namespace IMOWA
             ModManager modManager = new ModManager(caminhoDoJogo, listOfMods, unityEngine);//Impedir selecionar os mods até que o loader esteja instalado
                                                                                            //fazer a parte de instalar os mods, mas que ele não feche o programa ao salvar
 
+
             bool[] modStatus = new bool[listOfMods.Count];
             for (int i = 0; i < modStatus.Length; i++)
                 modStatus[i] = modManager.IsTheModInstalled(i);
@@ -106,9 +110,11 @@ namespace IMOWA
                 Console.Clear();
                 Console.WriteLine($" {modManager.AmountOfMods()} Mods ");
                 Console.WriteLine("Mod index | Mod Name | Mod Status");
+
                 Console.WriteLine("0 - Is DIMOWAModLoader enabled? " + (loaderStatus ? "yes" : "no"));
 
-                if (loaderInstaller.IsLoaderInstalled)
+                if(loaderInstaller.IsLoaderInstalled)
+
                     for (int i = 0; i < modStatus.Length; i++)
                         Console.WriteLine($"{i + 1} - Is " + listOfMods[i].ModName + " enabled? " + (modStatus[i] ? "yes" : "no"));
 
@@ -118,7 +124,9 @@ namespace IMOWA
                 {
                     if (str == "close")
                         break;
-                    int index = Convert.ToInt32(str) - 1;
+
+                    int index = Convert.ToInt32(str) -1;
+
                     if (index != -1 && loaderInstaller.IsLoaderInstalled)
                     {
                         Console.WriteLine("Do you want to enable or disable " + listOfMods[index].ModName + "? (enable/disable)");
@@ -187,7 +195,9 @@ namespace IMOWA
                     if (loaderInstaller.Install())
                     {
                         Console.WriteLine("DIMOWAModLoader has been successfully installed");
+
                         CopyFileAndReferencesToFolder(new MOWAP { Dependencies = loaderInstaller.loaderDependecies, DllFilePath = dimowaModLoaderPath }, managedDirectoryPath, caminhoDaPastaDeMods, caminhoDoJogo);
+
                     }
                 }
                 else
@@ -222,7 +232,9 @@ namespace IMOWA
                     catch (Exception e)
                     {
                         if (e.GetType() == typeof(FileNotFoundException))
-                            Console.WriteLine("The file " + file + " isn't inside the game's folder nor the program folder. Check if you got all the files from the download.");
+
+                            Console.WriteLine("The file "+file+" isn't inside the game's folder nor the program folder. Check if you got all the files from the download.");
+
                         else if (e.GetType() == typeof(DirectoryNotFoundException))
                             Console.WriteLine("Couldn't find the Managed sub folder inside the game's folder, make sure you gave the correct folder by deleting config.json or by editing config.json");
                         else
@@ -236,7 +248,7 @@ namespace IMOWA
             return filePath;
         }
 
-        public static void CopyFileAndReferencesToFolder(MOWAP modData, string folderToCopy, params string[] originFolders)
+ static void CopyFileAndReferencesToFolder(MOWAP modData, string folderToCopy, params string[] originFolders)
         {
             string fileName = Path.GetFileName(modData.DllFilePath);
             if (Directory.GetFiles(folderToCopy, fileName).Length == 0)
@@ -244,16 +256,19 @@ namespace IMOWA
                 Console.WriteLine(Path.GetFileName(modData.DllFilePath) + " wasn't in " + folderToCopy + ", copying it there");
                 File.Copy(modData.DllFilePath, folderToCopy + '/' + fileName);
             }
-            for (int i = 0; i < modData.Dependencies.Length; i++)
+
+            for(int i =0; i < modData.Dependencies.Length; i++)
             {
                 if (Directory.GetFiles(folderToCopy, modData.Dependencies[i]).Length == 0)
                 {
                     Console.WriteLine("{0} wasn't in the folder, copying it there", modData.Dependencies[i]);
                     string filePath = "";
+
                     foreach (string origin in originFolders)
                         try
                         {
                             filePath = ModManager.GetFilePathInDirectory(modData.Dependencies[i], origin);
+
                         }
                         catch { }
                     if (filePath != "")
@@ -265,3 +280,4 @@ namespace IMOWA
         }
     }
 }
+

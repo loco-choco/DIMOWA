@@ -80,12 +80,14 @@ namespace DIMOWAModLoader
         void MainMenuStart()//0
         {
             Debug.Log("MainMenuStart");
+
             MainMenuMods.RunAllMethodsInOrder();
         }        
         void GameStart()//1
         {
             Debug.Log("GameStartStart");
             GameSceneMods.RunAllMethodsInOrder();
+
         }
         void AllLevelStart()//-1 , tem prioridade sobre os outros
         {
