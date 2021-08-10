@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using IMOWA.GUI;
+using IMOWAGUI.IMOWA;
 
 namespace IMOWA
 {
@@ -11,27 +12,26 @@ namespace IMOWA
         public DIMOWALoaderInstaller DIMOWALoaderInstaller;
         public ModManifestJson[] ManifestsDosMods;
         public ModManifestJson ManifestDoLoader;
-        public ModListJson ModEnabledList; 
+        public ModFolderAndList ModEnabledList; 
 
         public const string dimowaModLoaderFile = "DIMOWAModLoader.dll";
-        public const string loaderModJsonFile = "ModList.json";
+        public const string loaderModOWFile = "ModList.ow";
         public ModDataHandler(string caminhoDoJogo, string caminhoDaPastaDeMods, string caminhoDaPastaDeManifestos)
         {
-            string loaderJsonPath = "";
+            string loaderModOWPath = "";
             try
             {
-                loaderJsonPath = DirectorySearchTools.GetFilePathInDirectory(loaderModJsonFile, caminhoDoJogo);
+                loaderModOWPath = DirectorySearchTools.GetFilePathInDirectory(loaderModOWFile, caminhoDoJogo);
             }
-            catch { ConsoleWindowHelper.Warning(string.Format("{0} couldn't be found, the mod loader probrabilly hasn't been installed yet.",loaderModJsonFile)); }
-
+            catch { ConsoleWindowHelper.Warning(string.Format("{0} couldn't be found, the mod loader probrabilly hasn't been installed yet.", loaderModOWFile)); }
+            ModEnabledList = new ModFolderAndList() { ModFolder = "", ModList = new string[] { } };
             try
             {
-                ModEnabledList = JsonReader.ReadFromJson<ModListJson>(loaderJsonPath);
+                ClassSerializer.ReadFromFile(loaderModOWPath, ModEnabledList);
             }
             catch
             {
-                ConsoleWindowHelper.Exception(string.Format("{0} couldn't be read, the problem can be fixed by pressing save.", loaderModJsonFile));
-                ModEnabledList = new ModListJson() { ModFolder = "", ModList = new string[] { } };
+                ConsoleWindowHelper.Exception(string.Format("{0} couldn't be read, the problem can be fixed by pressing save.", loaderModOWFile));
             }
 
             string[] todosOsJsons = Directory.GetFiles(caminhoDaPastaDeManifestos, "*manifest.json", SearchOption.AllDirectories);

@@ -14,6 +14,23 @@ namespace IMOWA
         private string gameFolder;
         //public string[] loaderDependecies { get; private set; }
 
+        private const string ModLoaderClassPatch
+#if OUTER_WILDS_ALPHA
+        = "TitleScreenMenu";
+#elif TABZ
+        = "MainMenuHandler";
+#else
+            = "";
+#endif
+
+        private const string ModLoaderMethodPatch
+#if OUTER_WILDS_ALPHA
+        = "Awake";
+#elif TABZ
+        = "Awake";
+#else
+            = "";
+#endif
         public DIMOWALoaderInstaller(string gameFolder, string directoryOfLoader)
         {
             this.gameFolder = gameFolder;
@@ -62,14 +79,15 @@ namespace IMOWA
             Target ModLoaderInnitTarget = new Target
             {
                 Namespace = "",
-                Class = "MainMenuHandler",
-                Method = "Awake",
+                Class = ModLoaderClassPatch,
+                Method = ModLoaderMethodPatch,
                 Indices = new int[] { 0, 1, 2, 3 },
                 Instructions = modLoaderInstructions,
                 InsertInstructions = true,
             };
 
-            //loaderDependecies = DirectorySearchTools.ParseReferences(levelLoader.GetReferencedAssemblies());
+            //TODO Implementar pegar essas referencias
+            //loaderDependecies = DirectorySearchTools.ParseAssemblyReferences(levelLoader.GetReferencedAssemblies());
 
             return ModLoaderInnitTarget;
         }

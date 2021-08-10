@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
-using System.Linq;
-using System.Reflection;
-using System.Text;
+using System.Collections.Generic;
 
-namespace DIMOWAModLoader.Mod_Loading
+namespace DIMOWAModLoader.Mod_Loading//.FirstOrDefault(
 {
     public class DirectorySearchTools 
     {
@@ -30,6 +26,16 @@ namespace DIMOWAModLoader.Mod_Loading
                     return possibleDirectories[0];
             }
             throw new DirectoryNotFoundException($"{directoryName}  was not found inside in any of the given folder or inside theirs children directories");
+        }
+    }
+    public static class LINQExtensions
+    {
+        public static T FirstOrDefault<T>(IEnumerable<T> enumerable, Predicate<T> predicate)
+        {
+            foreach (var item in enumerable)
+                if (predicate(item))
+                    return item;
+            return default(T);
         }
     }
 }

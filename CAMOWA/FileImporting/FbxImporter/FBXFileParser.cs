@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using CAMOWA.FBXRuntimeImporter.AnimationRead;
-using System.Text;
-using UnityEngine;
 
 namespace CAMOWA.FBXRuntimeImporter
 {

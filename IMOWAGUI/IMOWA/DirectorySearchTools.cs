@@ -25,5 +25,11 @@ namespace IMOWA
             }
             throw new DirectoryNotFoundException($"{directoryName}  was not found inside in any of the given folder or inside theirs children directories");
         }
+
+        //TODO Local da implementacao para pegar as referencias
+        //public static string[] ParseAssemblyReferences(System.Reflection.AssemblyName[] assemblyNames)
+        //{
+        //    return;
+        //}
     }
 }

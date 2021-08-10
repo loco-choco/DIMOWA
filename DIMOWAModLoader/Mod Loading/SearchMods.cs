@@ -2,53 +2,52 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.IO;
-using System.Linq;
-using System.Text;
 using UnityEngine;
+using System.Xml;
+using System.Runtime.Serialization;
 
 namespace DIMOWAModLoader.Mod_Loading
 {
-    [Serializable]
-    public struct ModList
+    public class ModFolderAndList : DIMOWASerializable
     {
-        public string modFolder;
-        public string[] modList;
-        public ModList(string modFolder, params string[] modList)
-        {
-            this.modFolder = modFolder;
-            this.modList = modList;
-        }
+        public string ModFolder { get; set; }
+        public string[] ModList { get; set; }
 
-        public static ModList FromJson(string path)
+        public ModFolderAndList()
         {
-            string json = File.ReadAllText(path);
-            return JsonUtility.FromJson<ModList>(json);
+            ModFolder = "";
+            ModList = new string[0];
         }
-
-        public void ToJsonFile(string filePath)
+        public override void Deserialize(ref BinaryReader reader)
         {
-            string file = JsonUtility.ToJson(this);
-            StreamWriter s = File.CreateText(filePath);
-            s.Write(file);
-            s.Flush();
-            s.Close();
+            ModFolder = reader.ReadString();
+            ModList = new string[reader.ReadInt32()];
+            for (int i = 0; i < ModList.Length; i++)
+                ModList[i] = reader.ReadString();
+        }
+        public override void Serialize(ref BinaryWriter writer)
+        {
+            writer.Write(ModFolder);
+            writer.Write(ModList.Length);
+            for (int i = 0; i < ModList.Length; i++)
+                writer.Write(ModList[i]);
         }
     }
 
     public class SearchMods
     {
-        static public MOWAP[] GetModsMOWAPS(string gamePath, ModList list)
+        static public MOWAP[] GetModsMOWAPS(string gamePath, ModFolderAndList list)
         {
-            ModAssemblyLoader assemblyLoader = new ModAssemblyLoader(list.modFolder, gamePath);
+            ModAssemblyLoader assemblyLoader = new ModAssemblyLoader(list.ModFolder, gamePath);
             List<MOWAP> modsMowaps = new List<MOWAP>();
-            Type IMOWAModInnit = Assembly.LoadFrom(DirectorySearchTools.GetFilePathInDirectory("CAMOWA.dll", gamePath, list.modFolder)).GetType("CAMOWA.IMOWAModInnit", true);
-            for (int i = 0; i < list.modList.Length; i++)
+            Type IMOWAModInnit = Assembly.LoadFrom(DirectorySearchTools.GetFilePathInDirectory("CAMOWA.dll", gamePath, list.ModFolder)).GetType("CAMOWA.IMOWAModInnit", true);
+            for (int i = 0; i < list.ModList.Length; i++)
             {
                 try
                 {
-                    modsMowaps.Add(assemblyLoader.GenerateModMOWAPFromDll(list.modList[i], IMOWAModInnit));
+                    modsMowaps.Add(assemblyLoader.GenerateModMOWAPFromDll(list.ModList[i], IMOWAModInnit));
                 }
-                catch(Exception ex) { Debug.Log(string.Format("Coudldn't get mod info from {0} : {1} - {2} - {3}", list.modList[i], ex.Message, ex.Source, ex.StackTrace)); }
+                catch(Exception ex) { Debug.Log(string.Format("Coudldn't get mod info from {0} : {1} - {2} - {3}", list.ModList[i], ex.Message, ex.Source, ex.StackTrace)); }
             }
                
 

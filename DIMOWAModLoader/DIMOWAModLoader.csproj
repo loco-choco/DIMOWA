@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DIMOWAModLoader</RootNamespace>
     <AssemblyName>DIMOWAModLoader</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -35,12 +35,9 @@
 
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-
-      <HintPath>..\..\..\..\..\TABZ modded v5\GAME_Data\Managed\UnityEngine.dll</HintPath>
-
+      <HintPath>..\..\..\..\..\OuterWilds Alpha 1_2\OuterWilds_Alpha_1_2_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -48,12 +45,13 @@
     <Compile Include="Headers.cs" />
     <Compile Include="LevelLoaderHandler.cs" />
     <Compile Include="Mod Loading\ModAssemblyLoader.cs" />
-    <Compile Include="Mod Loading\DirectorySearchTools.cs" />
+    <Compile Include="Mod Loading\ToolsAndExtensions.cs" />
     <Compile Include="Mod Loading\ModPriorityOrganizer.cs" />
     <Compile Include="Mod Loading\MOWAP.cs" />
     <Compile Include="Mod Loading\SearchMods.cs" />
     <Compile Include="PacketIO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ClassSerializer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
