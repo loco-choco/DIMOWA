@@ -13,6 +13,7 @@ Follow the steps in [here](https://github.com/ShoosGun/DIMOWA/blob/main/IMOWA_Tu
 
 #### What mods are known to be compatible with it?
 ##### For Outer Wilds Alpha 
+* [navinha](https://github.com/ShoosGun/navinha)
 * [OWBA](https://github.com/ShoosGun/OWBA) (WIP)
 * [Free Cam Mod](https://github.com/ShoosGun/FreeCamMod) (WIP)
 * [Probe Grapple Mod](https://github.com/ShoosGun/ProbeGrappleMod) (WIP)
@@ -20,8 +21,6 @@ Follow the steps in [here](https://github.com/ShoosGun/DIMOWA/blob/main/IMOWA_Tu
 ##### For TABZ
 * [TABZ Settings Mod](https://github.com/ShoosGun/TABZSM)
 * [TABZ More Guns Mod](https://github.com/ShoosGun/TABZMGM)
-* [Probe Grapple Mod](https://github.com/ShoosGun/ProbeGrappleMod)
-
 ## Credits
   - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
   - Thanks [Raicuparta](https://github.com/Raicuparta), [Mister_Nebula](https://github.com/misternebula), [AmazingAlek](https://github.com/amazingalek) and [TAImatem](https://github.com/TAImatem) for creating [OWML](https://github.com/amazingalek/owml) which inspired me to create my own for the Alpha
