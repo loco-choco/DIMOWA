@@ -10,7 +10,7 @@ namespace DIMOWAModLoader
     {
         static private bool levelLoaderCreated = false;
         private int levelIndex = -1;
-        bool loadMods = false;
+        private GameObject HasANewSceneBeenLoaded;
 
         private const string ModListOWFileName = "ModList.ow";
 
@@ -94,10 +94,10 @@ namespace DIMOWAModLoader
             Debug.Log("AllLevelStart");
             AllScenesMods.RunAllMethodsInOrder();
         }
-
+        //TODO fazer uma list que contenha os GameSceneMods e MainMenuMods para poder usar em "qualquer jogo"
         void Update()
         {
-            if (levelIndex != Application.loadedLevel || loadMods)
+            if (HasANewSceneBeenLoaded == null)
             {
                 AllLevelStart();
                 levelIndex = Application.loadedLevel;
@@ -105,7 +105,7 @@ namespace DIMOWAModLoader
                     MainMenuStart();
                 else if (levelIndex == 1)
                     GameStart();
-                loadMods = false;
+                HasANewSceneBeenLoaded = new GameObject("HasANewSceneBeenLoadedChecker");
             }
         }
     }
