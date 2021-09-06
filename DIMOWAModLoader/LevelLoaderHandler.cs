@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using DIMOWAModLoader.Mod_Loading;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using UnityEngine;
+using DIMOWAModLoader.Mod_Loading;
 
 namespace DIMOWAModLoader
 {
@@ -14,9 +15,10 @@ namespace DIMOWAModLoader
 
         private const string ModListOWFileName = "ModList.ow";
 
-        private ModPriorityOrganizer MainMenuMods;
-        private ModPriorityOrganizer GameSceneMods;
-        private ModPriorityOrganizer AllScenesMods;
+        //private ModPriorityOrganizer MainMenuMods;
+        //private ModPriorityOrganizer GameSceneMods;
+        //private ModPriorityOrganizer AllScenesMods;
+        private Dictionary<int, ModPriorityOrganizer> SpecificSceneMods;
 
         public static void LevelLoaderInnit(string porOndeTaInicializando)
         {
@@ -37,9 +39,10 @@ namespace DIMOWAModLoader
 
             try
             {
-                MainMenuMods = new ModPriorityOrganizer();
-                GameSceneMods = new ModPriorityOrganizer();
-                AllScenesMods = new ModPriorityOrganizer();
+                //MainMenuMods = new ModPriorityOrganizer();
+                //GameSceneMods = new ModPriorityOrganizer();
+                SpecificSceneMods = new Dictionary<int, ModPriorityOrganizer>();
+                //AllScenesMods = new ModPriorityOrganizer();
 
                 string dllExecutingPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 string modListFilePath = DirectorySearchTools.GetFilePathInDirectory(ModListOWFileName, dllExecutingPath);
@@ -59,52 +62,35 @@ namespace DIMOWAModLoader
             for (int i = 0; i < mods.Length; i++)
             {
                 Debug.Log("Nome: " + mods[i].ModInnitMethod.Name);
-                switch (mods[i].ModLoadingPlace)
+                if (SpecificSceneMods.TryGetValue(mods[i].ModLoadingPlace, out ModPriorityOrganizer modLoadingPlace))
+                    modLoadingPlace.AddMethodInfoFromPriority(mods[i]);
+                else
                 {
-                    case 0:
-                        MainMenuMods.AddMethodInfoFromPriority(mods[i]);
-                        break;
-
-                    case 1:
-                        GameSceneMods.AddMethodInfoFromPriority(mods[i]);
-                        break;
-
-                    default:
-                        AllScenesMods.AddMethodInfoFromPriority(mods[i]);
-                        break;
+                    ModPriorityOrganizer modPriorityOrganizer = new ModPriorityOrganizer();
+                    modPriorityOrganizer.AddMethodInfoFromPriority(mods[i]);
+                    SpecificSceneMods.Add(mods[i].ModLoadingPlace, modPriorityOrganizer);
                 }
             }
         }
 
         //0 - Main Menu (1st scene) , 1 - Game (2nd scene), -1 All (any scene)
-        void MainMenuStart()//0
+        void TryRunningModsInScene(int index)//0
         {
-            Debug.Log("MainMenuStart");
-
-            MainMenuMods.RunAllMethodsInOrder();
-        }        
-        void GameStart()//1
-        {
-            Debug.Log("GameStartStart");
-            GameSceneMods.RunAllMethodsInOrder();
-
+            if (SpecificSceneMods.TryGetValue(index, out ModPriorityOrganizer modLoadingPlace))
+                modLoadingPlace.RunAllMethodsInOrder();
         }
         void AllLevelStart()//-1 , tem prioridade sobre os outros
         {
             Debug.Log("AllLevelStart");
-            AllScenesMods.RunAllMethodsInOrder();
+            TryRunningModsInScene(-1);
         }
-        //TODO fazer uma list que contenha os GameSceneMods e MainMenuMods para poder usar em "qualquer jogo"
         void Update()
         {
             if (HasANewSceneBeenLoaded == null)
             {
                 AllLevelStart();
                 levelIndex = Application.loadedLevel;
-                if (levelIndex == 0)
-                    MainMenuStart();
-                else if (levelIndex == 1)
-                    GameStart();
+                TryRunningModsInScene(levelIndex);
                 HasANewSceneBeenLoaded = new GameObject("HasANewSceneBeenLoadedChecker");
             }
         }

@@ -23,28 +23,37 @@ namespace IMOWA.GUI
         public ModEnableElement(Panel panel, ModManifestJson json, bool Status)
         {
             this.json = json;
-            
-            label = new Label();
-            label.Text = string.Format("{0} [{1}]",json.Name,json.UniqueName);
-            panel.Controls.Add(label);
-            label.Width = (int)(panel.Width * 0.75f);
-            label.BackColor = Color.Transparent;
+            unlockedColor = Color.Black;
 
-            moreDetails = new Label();
-            moreDetails.Text = string.Format("{0}  -  Version: {1}  By: {2}", json.Description, json.Version, json.Author);
-            moreDetails.Width = (int)(panel.Width * 0.9f);
-            moreDetails.BackColor = Color.Transparent;
-            moreDetails.Top = (int)(label.Height * DistanceOfElements);
-            moreDetails.ForeColor = Color.DarkSlateGray;
+            label = new Label
+            {
+                Text = string.Format("{0} [{1}]", json.Name, json.UniqueName),
+                Width = (int)(panel.Width * 0.75f),
+                BackColor = Color.Transparent,
+                ForeColor = unlockedColor,
+                AutoSize = true
+            };
+
+            panel.Controls.Add(label);
+
+            moreDetails = new Label
+            {
+                Text = string.Format("{0}  -  Version: {1}  By: {2}", json.Description, json.Version, json.Author),
+                Width = (int)(panel.Width * 0.9f),
+                BackColor = Color.Transparent,
+                Top = (int)(label.Height * DistanceOfElements),
+                ForeColor = Color.DarkSlateGray,
+                AutoSize = true
+            };
+
             panel.Controls.Add(moreDetails);
 
-            unlockedColor = Color.Black;
-            label.ForeColor = unlockedColor;
-
-            checkBox = new CheckBox();
-            checkBox.Checked = Status;
-            checkBox.Left = (int)(panel.Width * 0.8f);
-            checkBox.Width = 20;
+            checkBox = new CheckBox
+            {
+                Checked = Status,
+                Left = (int)(panel.Width * 0.8f),
+                Width = 20
+            };
             panel.Controls.Add(checkBox);
 
             ModEnableElements.Add(this);
