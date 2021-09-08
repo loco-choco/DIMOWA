@@ -1,4 +1,4 @@
-# DIMOWA 1.0.4.2 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
+# DIMOWA 1.0.4.3 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
 An universal mod installer (and mod debugger) for Outer Wilds Alpha (version 1.2) and TABZ 
 
@@ -21,6 +21,7 @@ Follow the steps in [here](https://github.com/ShoosGun/DIMOWA/blob/main/IMOWA_Tu
 ##### For TABZ
 * [TABZ Settings Mod](https://github.com/ShoosGun/TABZSM)
 * [TABZ More Guns Mod](https://github.com/ShoosGun/TABZMGM)
+* [TABZ More Gamemodes](https://github.com/ShoosGun/TABZMG)
 ## Credits
   - Thanks [ioncodes](https://github.com/ioncodes) for creating [dnpatch](https://github.com/ioncodes/dnpatch)
   - Thanks [Raicuparta](https://github.com/Raicuparta), [Mister_Nebula](https://github.com/misternebula), [AmazingAlek](https://github.com/amazingalek) and [TAImatem](https://github.com/TAImatem) for creating [OWML](https://github.com/amazingalek/owml) which inspired me to create my own for the Alpha
