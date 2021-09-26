@@ -1,4 +1,4 @@
-## This branch is for the old DIMOWA, before turning CAMOWA a BepInEx plugin. This version will no longer be updated but will still remain here.
+## This project will no longer be maintained, and the mods will start to use BepInEx instead,CAMOWA will turn into a BepInEx plugin.
 
 # DIMOWA 1.0.4.3 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
