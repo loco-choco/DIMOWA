@@ -1,3 +1,5 @@
+## This branch is for the old DIMOWA, before turning CAMOWA a BepInEx plugin. This version will no longer be updated but will still remain here.
+
 # DIMOWA 1.0.4.3 - Debugger e Instalador de Mods de Outer Wilds Alpha (1.2)
 
 An universal mod installer (and mod debugger) for Outer Wilds Alpha (version 1.2) and TABZ 
